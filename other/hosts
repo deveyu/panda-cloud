@@ -1,0 +1,4 @@
+127.0.0.1 panda-server
+127.0.0.1 panda-mysql
+127.0.0.1 panda-redis
+127.0.0.1 panda-rabbitmq

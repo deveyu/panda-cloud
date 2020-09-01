@@ -9,10 +9,10 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/YuKongEr/panda-config
+          uri: https://github.com/deveyu/config-reps
           default-label: ${spring.profiles.active}
-          username: YuKongEr
-          password: x19961010..
+          username: deveyu
+          password: yudachang0307
 eureka:
   instance:
     prefer-ip-address: true
