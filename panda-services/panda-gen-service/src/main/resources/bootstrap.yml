@@ -17,9 +17,9 @@ spring:
   # DataSource Config
   datasource:
     username: root
-    password: abc123
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/cloud?useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://119.45.104.69:3306/cloud?useUnicode=true&characterEncoding=UTF8&useSSL=false&autoReconnect=true
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
