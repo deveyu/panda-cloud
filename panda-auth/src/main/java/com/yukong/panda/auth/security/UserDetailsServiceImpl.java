@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 
+    /**
+     * 使用feign调用user-service获取用户信息
+     */
     @Autowired
     private SysUserService sysUserService;
 

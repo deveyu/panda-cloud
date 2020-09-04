@@ -43,7 +43,11 @@ import java.util.Map;
 /**
  * @author: yukong
  * @date: 2018/10/8 17:27
- * @description: oauth2认证服务器配置类
+ * @description: oauth2认证服务器 配置类
+ *
+ *
+ * 这个东西没有被调用怎么会起作用的？？？？？
+ *
  */
 @Slf4j
 @Configuration
@@ -77,7 +81,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     }
 
     /**
+     * ClientDetailsServiceConfigurer：用来配置客户端详情服务（ClientDetailsService），
+     * 客户端详情信息在这里进行初始化，你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。
      * 配置client通过jdbc从数据库查询
+     * 表：sys_oauth_client_details
      * @param clients
      * @throws Exception
      */
@@ -89,7 +96,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         clients.withClientDetails(clientDetailsService);
     }
 
-
+    /**
+     * 用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)。
+     * @param endpoints
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // token增强链
@@ -105,6 +116,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         endpoints.exceptionTranslator(customWebResponseExceptionTranslator);
     }
 
+    /**
+     * 用来配置令牌端点(Token Endpoint)的安全约束.
+     * @param security
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
@@ -116,6 +132,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .checkTokenAccess("isAuthenticated()");
     }
 
+
+    /**
+     * JwtAccessTokenConverter是用来生成token的转换器，而token令牌默认是有签名的，且资源服务器需要验证这个签名。此处的加密及验签包括两种方式：
+     * 对称加密、非对称加密（公钥密钥）
+     * 对称加密需要授权服务器和资源服务器存储同一key值，而非对称加密可使用密钥加密，暴露公钥给资源服务器验签，本文中使用非对称加密方式
+     * @return
+     */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
