@@ -18,6 +18,8 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    metadata-map:
+      developer: ydc
   client:
     service-url:
       defaultZone: http://panda-server:8761/eureka/

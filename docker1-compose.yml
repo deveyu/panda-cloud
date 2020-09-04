@@ -1,0 +1,36 @@
+version: '3' # 表示该 Docker-Compose 文件使用的是 Version 2 file
+services:
+  panda-server:  # 指定服务名称
+#    build:
+#      context: ./panda-server
+#      dockerfile: Dockerfile
+    image: panda-cloud/panda-server:latest
+    restart: always
+    hostname: panda-server
+    container_name: panda-server
+    networks:
+      - cloud
+    ports:    # 指定端口映射
+      - "8761:8761"
+  panda-config-server:
+#    build:
+#      context: ./panda-config-server
+#      dockerfile: Dockerfile
+    image: panda-cloud/panda-config-server:latest
+    restart: always
+    hostname: panda-config-server
+    container_name: panda-config-server
+
+    environment:
+      SLEEP_SECOND: 5
+    tty: true
+    ports:    # 指定端口映射
+      - "6671:6671"
+    networks:
+      - cloud
+    depends_on:
+        - panda-server
+#指定网络
+networks:
+  cloud:
+    driver: bridge

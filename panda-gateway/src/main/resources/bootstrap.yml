@@ -17,10 +17,11 @@ spring:
 
 
 
-
+#默认应用程序名称（即服务ID），虚拟主机和非安全端口（从Environment获取）分别为，${spring.application.name}和${server.port}。
 eureka:
-  instance:
-    prefer-ip-address: true
+#  instance:
+#    prefer-ip-address: true
   client:
+    # EurekaServer的地址，现在是自己的地址，如果是集群，需要写其它Server的地址。
     service-url:
       defaultZone: http://panda-server:8761/eureka/
