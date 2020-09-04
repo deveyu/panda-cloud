@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author: yukong
  * @date: 2018/10/9 10:09
- * @description: security 用户对象
+ * @description: security 封装用户对象
  */
 @Data
 public class UserDetailsImpl implements UserDetails {
@@ -41,6 +41,10 @@ public class UserDetailsImpl implements UserDetails {
         this.roleVos = userVo.getSysRoleVoList();
     }
 
+    /**
+     * 根据用户的角色获取Authority
+     * @return
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
