@@ -20,8 +20,15 @@ sms:
     appKey: 07831d2dacf5878e875199fdb1757c16
 
 eureka:
+  #Having spring-cloud-starter-netflix-eureka-client on the classpath makes the app into both a Eureka “ instance ” (that is, it registers itself) and a “ client ” (it can query the registry to locate other services).
+  #instance:
+  # hostname: ${spring.application.name} hostname不写应该以 ${spring.application.name}为默认值
+  #prefer-ip-address: true   这里为true的话启动拉取服务不是以http://panda-config-server:6671/  而是以ip
   instance:
-    prefer-ip-address: true
+    #  hostname: ${HOST_NAME}
+    metadata-map:
+      routingTag: ydc
   client:
     service-url:
+      #http://user:password@localhost:8761/eureka
       defaultZone: http://panda-server:8761/eureka/

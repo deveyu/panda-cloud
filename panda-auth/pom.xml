@@ -26,6 +26,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.yukong</groupId>
 			<artifactId>panda-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

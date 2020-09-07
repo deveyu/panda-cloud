@@ -1,25 +1,25 @@
 version: '3' # 表示该 Docker-Compose 文件使用的是 Version 2 file
 services:
   panda-server:  # 指定服务名称
-#    build:
-#      context: ./panda-server
-#      dockerfile: Dockerfile
-    image: panda-cloud/panda-server:latest
+    build:
+      context: ./panda-server
+      dockerfile: Dockerfile
+    image: panda-server
     restart: always
     hostname: panda-server
-    container_name: panda-server
+    container_name: registry
     networks:
       - cloud
     ports:    # 指定端口映射
       - "8761:8761"
   panda-config-server:
-#    build:
-#      context: ./panda-config-server
-#      dockerfile: Dockerfile
-    image: panda-cloud/panda-config-server:latest
+    build:
+      context: ./panda-config-server
+      dockerfile: Dockerfile
+    image: panda-config-server
     restart: always
     hostname: panda-config-server
-    container_name: panda-config-server
+    container_name: config
 
     environment:
       SLEEP_SECOND: 5
@@ -29,7 +29,89 @@ services:
     networks:
       - cloud
     depends_on:
-        - panda-server
+      - panda-server
+  panda-zipkin:
+    build:
+      context: ./panda-zipkin
+      dockerfile: Dockerfile
+    image: panda-zipkin
+    restart: always
+    hostname: panda-zipkin
+    container_name: zipkin
+
+    environment:
+      SLEEP_SECOND: 40
+    tty: true
+    networks:
+      - cloud
+    ports:    # 指定端口映射
+      - "5001:5001"
+    depends_on:
+      - panda-config-server
+  panda-auth:
+    build:
+      context: ./panda-auth
+      dockerfile: Dockerfile
+      #image: registry.cn-shanghai.aliyuncs.com/yukong-panda/panda-auth:latest
+    image: panda-auth
+    restart: always
+    hostname: panda-auth
+    container_name: auth
+    #  volumes:
+    #    - "./entrypoint.sh:/entrypoint.sh"
+    environment:
+      SLEEP_SECOND: 40
+    tty: true
+      #  entrypoint: /entrypoint.sh -d panda-config-server:6671 -c 'java -jar -Djava.security.egd=file:/dev/./urandom /app.jar'
+    networks:
+      - cloud
+    ports:    # 指定端口映射
+      - "6868:6868"
+    depends_on:
+      - panda-config-server
+
+  panda-user-service:
+    build:
+      context: ./panda-services/panda-user-service
+      dockerfile: Dockerfile
+    #image: registry.cn-shanghai.aliyuncs.com/yukong-panda/panda-user-service:latest
+    image: panda-user-service
+    restart: always
+    hostname: panda-user-service
+    container_name: user-service
+    #    volumes:
+    #      - "./entrypoint.sh:/entrypoint.sh"
+    environment:
+      SLEEP_SECOND: 5
+    tty: true
+    #    entrypoint: /entrypoint.sh -d panda-auth:6868 -c 'java -jar -Djava.security.egd=file:/dev/./urandom /app.jar'
+    networks:
+      - cloud
+    ports:    # 指定端口映射
+      - "9001:9001"
+    depends_on:
+      - panda-config-server
+  panda-gateway:
+    build:
+      context: ./panda-gateway
+      dockerfile: Dockerfile
+    #image: registry.cn-shanghai.aliyuncs.com/yukong-panda/panda-gateway:latest
+    image: panda-gateway
+    restart: always
+    hostname: panda-gateway
+    container_name: gateway
+    #    volumes:
+    #      - "./entrypoint.sh:/entrypoint.sh"
+    environment:
+      SLEEP_SECOND: 10
+    tty: true
+    #    entrypoint: /entrypoint.sh -d panda-user-service:9001 -c 'java -jar -Djava.security.egd=file:/dev/./urandom /app.jar'
+    ports:
+      - "2004:2004"
+    networks:
+      - cloud
+    depends_on:
+      - panda-config-server
 #指定网络
 networks:
   cloud:

@@ -20,6 +20,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.qcloudsms</groupId>
             <artifactId>qcloudsms</artifactId>
             <version>${qcloudsms.version}</version>

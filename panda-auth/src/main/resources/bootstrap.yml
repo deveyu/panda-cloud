@@ -17,9 +17,9 @@ spring:
 
 eureka:
   instance:
-    prefer-ip-address: true
     metadata-map:
-      developer: ydc
+      routingTag: ydc
+   # hostname: ${HOST_NAME}
   client:
     service-url:
       defaultZone: http://panda-server:8761/eureka/

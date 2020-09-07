@@ -37,7 +37,10 @@ spring:
             threadsInheritContextClassLoaderOfInitializingThread: true
 eureka:
   instance:
-    prefer-ip-address: true
+  #  hostname: ${HOST_NAME}
+    metadata-map:
+      routingTag: ydc
+  #prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://panda-server:8761/eureka/

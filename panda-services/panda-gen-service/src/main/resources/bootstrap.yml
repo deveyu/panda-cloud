@@ -61,7 +61,9 @@ logging:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    #  hostname: ${HOST_NAME}
+    metadata-map:
+      routingTag: ydc
   client:
     service-url:
       defaultZone: http://panda-server:8761/eureka/
