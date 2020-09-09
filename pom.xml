@@ -40,6 +40,7 @@
         <module>panda-config-server</module>
         <module>panda-gateway</module>
         <module>panda-zipkin</module>
+        <module>panda-item</module>
     </modules>
 
 

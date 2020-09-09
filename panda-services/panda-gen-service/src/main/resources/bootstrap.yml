@@ -1,5 +1,5 @@
 server:
-  port: 9092
+  port: 9063
 spring:
   application:
     name: panda-gen-service

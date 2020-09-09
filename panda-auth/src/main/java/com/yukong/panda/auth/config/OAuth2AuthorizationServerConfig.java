@@ -45,9 +45,6 @@ import java.util.Map;
  * @date: 2018/10/8 17:27
  * @description: oauth2认证服务器 配置类
  *
- *
- * 这个东西没有被调用怎么会起作用的？？？？？
- *
  */
 @Slf4j
 @Configuration

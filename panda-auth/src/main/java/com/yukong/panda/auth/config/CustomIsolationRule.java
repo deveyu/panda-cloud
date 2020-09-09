@@ -8,11 +8,13 @@ import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AbstractLoadBalancerRule;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.Server;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+
+@Slf4j
 public class CustomIsolationRule extends AbstractLoadBalancerRule {
     @Autowired
     DiscoveryClient discoveryClient;
@@ -54,13 +58,19 @@ public class CustomIsolationRule extends AbstractLoadBalancerRule {
             if (allServers.size() == 0) {
                 return null;
             } else {
+                //这里是否有漏洞呢?假如该消费者调用的服务不是一个
                 resultServer = allServers.get(0);
                 //获取提供者的实例信息
                 List<ServiceInstance> instances = discoveryClient.getInstances(resultServer.getMetaInfo().getServiceIdForDiscovery());
+
                 //根据实例中 metadata.routingTag进行分组
                 Map<String, List<ServiceInstance>> collect = instances.stream().collect(groupingBy(s -> s.getMetadata().get("routingTag")));
                 //获取与当前消费者在同一个分片的服务生产者 by routingTag
                 List<ServiceInstance> serviceInstances = collect.get(routingTag);
+                //todo 如果没有相同routingTag的生产者，优先使用没有routingTag的生产者，即已经部署的服务器
+                if (serviceInstances.size() == 0) {
+
+                }
                 List<Server> sameTagServers = new ArrayList<>();
                 for (ServiceInstance serviceInstance : serviceInstances) {
                     for (Server server : allServers) {
@@ -87,6 +97,7 @@ public class CustomIsolationRule extends AbstractLoadBalancerRule {
             }
 
             if (resultServer.isAlive()) {
+                log.debug("=============================================选中的服务是:" + resultServer);
                 return (resultServer);
             }
 
@@ -94,8 +105,17 @@ public class CustomIsolationRule extends AbstractLoadBalancerRule {
             resultServer = null;
             Thread.yield();
         }
-        System.out.println("选中的服务是:" + resultServer);
+        log.debug("=============================================选中的服务是:" + resultServer);
         return resultServer;
+    }
+
+
+    /**
+     * 随机取一个实例
+     */
+    private Server getServer(List<Server> upList) {
+        int nextInt = RandomUtil.randomInt(upList.size());
+        return upList.get(nextInt);
     }
 
 }

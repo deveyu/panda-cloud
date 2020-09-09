@@ -1,5 +1,5 @@
 server:
-  port: 6671
+  port: 9052
 spring:
   application:
     name: panda-config-server

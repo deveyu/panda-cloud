@@ -11,7 +11,7 @@ services:
     networks:
       - cloud
     ports:    # 指定端口映射
-      - "8761:8761"
+      - "9051:9051"
   panda-config-server:
     build:
       context: ./panda-config-server
@@ -25,7 +25,7 @@ services:
       SLEEP_SECOND: 5
     tty: true
     ports:    # 指定端口映射
-      - "6671:6671"
+      - "9052:9052"
     networks:
       - cloud
     depends_on:
@@ -45,7 +45,7 @@ services:
     networks:
       - cloud
     ports:    # 指定端口映射
-      - "5001:5001"
+      - "9054:9054"
     depends_on:
       - panda-config-server
   panda-auth:
@@ -66,7 +66,7 @@ services:
     networks:
       - cloud
     ports:    # 指定端口映射
-      - "6868:6868"
+      - "9060:9060"
     depends_on:
       - panda-config-server
 
@@ -88,7 +88,7 @@ services:
     networks:
       - cloud
     ports:    # 指定端口映射
-      - "9001:9001"
+      - "9061:9061"
     depends_on:
       - panda-config-server
   panda-gateway:
@@ -107,7 +107,7 @@ services:
     tty: true
     #    entrypoint: /entrypoint.sh -d panda-user-service:9001 -c 'java -jar -Djava.security.egd=file:/dev/./urandom /app.jar'
     ports:
-      - "2004:2004"
+      - "9053:9053"
     networks:
       - cloud
     depends_on:

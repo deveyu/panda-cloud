@@ -1,5 +1,5 @@
 server:
-  port: 6868
+  port: 9060
 spring:
   application:
     name: panda-auth
@@ -19,7 +19,6 @@ eureka:
   instance:
     metadata-map:
       routingTag: ydc
-   # hostname: ${HOST_NAME}
   client:
     service-url:
       defaultZone: http://panda-server:8761/eureka/
