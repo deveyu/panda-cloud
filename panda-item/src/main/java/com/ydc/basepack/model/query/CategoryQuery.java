@@ -1,15 +1,12 @@
 package com.ydc.basepack.model.query;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ydc.basepack.model.entity.Brand;
+import com.ydc.basepack.model.entity.Category;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class BrandQuery extends Page<Brand> {
+public class CategoryQuery extends Page<Category> {
     private String name;
-    private String letter;
 
 
 }

@@ -9,11 +9,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("brand")
@@ -27,9 +24,9 @@ public class BrandController {
 
     @ApiOperation(value = "品牌信息分页查询", notes = "品牌信息分页查询", httpMethod = "GET")
     @ApiImplicitParam(name = "brandQuery", value = "品牌信息查询类", required = false, dataType = "brandQuery")
-    @GetMapping("/page")
-    public ApiResult<List<BrandQuery>> pageByQuery(BrandQuery brandQuery){
-        return new ApiResult<>(brandService.pageByQuery(brandQuery));
+    @GetMapping("page")
+    public ApiResult<BrandQuery> pageByQuery(BrandQuery brandQuery){
+        return new ApiResult<>(brandService.pageBrandByQuery(brandQuery));
     }
 
 }

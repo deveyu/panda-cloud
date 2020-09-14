@@ -35,8 +35,8 @@ public class SysResourceServiceImpl  extends ServiceImpl<SysResourceMapper, SysR
         Set<SysResource> sysResources = getSysResourceRoleCodes(roleCodes);
         // 2、找出类型为菜单类型的 然后排序
         List<SysResource> newSysResource = sysResources.stream()
-                .filter(sysResource -> ResourceTypeEnum.MENU.getCode().equals(sysResource.getType()))
-                .sorted(Comparator.comparingInt(SysResource::getSort))
+                .filter(sysResource -> ResourceTypeEnum.MENU.getCode().equals(sysResource.getType()))//筛选菜单而不是按钮
+                .sorted(Comparator.comparingInt(SysResource::getSort))//在内存中排序
                 .collect(Collectors.toList());
         // 3、构建树
         return TreeUtil.list2Tree(newSysResource, CommonConstants.TREE_ROOT);

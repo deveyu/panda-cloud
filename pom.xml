@@ -27,7 +27,8 @@
         <spring.serurity.version>5.0.8.RELEASE</spring.serurity.version>
         <qcloudsms.version>1.0.5</qcloudsms.version>
         <docker.repoistory>registry.cn-shanghai.aliyuncs.com</docker.repoistory>
-        <docker.registry.name>yukong-panda</docker.registry.name>
+        <docker.image.prefix>panda</docker.image.prefix>
+        <docker.registry.name>developyu</docker.registry.name>
         <docker.host>http://119.45.104.69:2375</docker.host>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
         <hutool.version>5.4.1</hutool.version>
@@ -71,77 +72,6 @@
     </dependencyManagement>
 
 
-    <build>
-        <plugins>
-           <!-- 使用方法 https://github.com/spotify/docker-maven-plugin-->
-           <!-- <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.13</version>
-                &lt;!&ndash; 插件绑定phase  即运行 mvn  package 命令会自动构建 docker镜像并且push&ndash;&gt;
-                 <executions>
-                     <execution>
-                         <id>build-images</id>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>build</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-                &lt;!&ndash;docker镜像相关的配置信息&ndash;&gt;
-                <configuration>
-                    &lt;!&ndash; 私有仓库地址 &ndash;&gt;
-                    <registryUrl>${docker.repoistory}</registryUrl>
-                    &lt;!&ndash; push镜像到私有库 &ndash;&gt;
-                    <pushImage>true</pushImage>
-                    &lt;!&ndash;镜像名，这里用工程名&ndash;&gt;
-                    <imageName>${docker.repoistory}/${docker.registry.name}/${project.artifactId}</imageName>
-                    &lt;!&ndash;TAG,这里用工程版本号&ndash;&gt;
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
-                    <dockerDirectory>${project.basedir}/</dockerDirectory>
-
-                    &lt;!&ndash;构建镜像的配置信息&ndash;&gt;
-                    &lt;!&ndash; <resources>
-                         <resource>
-                             <targetPath>/</targetPath>
-                             <directory>${project.build.directory}</directory>
-                             <include>${project.build.finalName}.jar</include>
-                         </resource>
-                     </resources>&ndash;&gt;
-                    &lt;!&ndash; 私有库账号密码设置 &ndash;&gt;
-                    <serverId>cn_shanghai_aliyun</serverId>
-                </configuration>
-            </plugin>-->
 
 
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-version}</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <repository>spotify/foobar</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
-            </plugin>
-
-
-
-
-
-        </plugins>
-    </build>
 </project>

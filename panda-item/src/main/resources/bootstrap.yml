@@ -18,6 +18,7 @@ eureka:
   instance:
     metadata-map:
       routingTag: ydc
+
   client:
     service-url:
-      defaultZone: http://panda-server:8761/eureka/
+      defaultZone: http://panda-server:9051/eureka/

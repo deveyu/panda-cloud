@@ -39,11 +39,12 @@ public class AuthController {
     }
 
     /**
-     * 根据前端指定的clientId返回token,token需存储在redis中以备后来校验
+     *
      * @return
      */
     @GetMapping("/token")
     public ApiResult<Collection<OAuth2AccessToken>> readAllToken() {
+        //这里将clientId写死
         return new ApiResult<>(redisTokenStore.findTokensByClientId(SecurityConstants.CLOUD));
     }
 

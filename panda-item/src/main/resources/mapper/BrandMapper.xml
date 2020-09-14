@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yukong.panda.user.mapper.SysRoleMapper">
+<mapper namespace="com.ydc.basepack.mapper.BrandMapper">
 
-    <select id="pageByQuery" resultType="com.ydc.basepack.model.entity.Brand">
 
-        select * from tb_brand
-        <where>
+    <select id="pageBrandByQuery" resultType="com.ydc.basepack.model.entity.Brand" >
+        select
+            *
+         from
+             tb_brand
+        <where >
             <if test="name != '' and name != null">
-                and  name like concat('%',#{name},'%')
+                and   name  like concat('%',#{name},'%')
             </if>
             <if test="letter != '' and letter != null">
-                and  letter = #{letter}
+                and   letter  =#{letter}
             </if>
         </where>
-
     </select>
+
 </mapper>
