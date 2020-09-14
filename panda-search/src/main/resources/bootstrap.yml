@@ -1,0 +1,23 @@
+server:
+  port: 9092
+spring:
+  application:
+    name: panda-search-service
+  profiles:
+    active: dev
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: panda-config-server
+      profile: ${spring.profiles.active}
+      label: ${spring.profiles.active}
+      fail-fast: true
+      name: ${spring.application.name}
+eureka:
+  instance:
+    metadata-map:
+      routingTag: ydc
+  client:
+    service-url:
+      defaultZone: http://panda-server:9051/eureka/

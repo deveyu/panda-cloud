@@ -42,6 +42,7 @@
         <module>panda-gateway</module>
         <module>panda-zipkin</module>
         <module>panda-item</module>
+        <module>panda-search</module>
     </modules>
 
 
