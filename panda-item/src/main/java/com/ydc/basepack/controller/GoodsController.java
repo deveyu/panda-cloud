@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("category")
+@RequestMapping("goods")
 @Api(value = "商品controller", tags = {"商品操作接口"})
 public class GoodsController {
     private static final String MODULE_NAME = "商品模块";

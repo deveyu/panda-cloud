@@ -12,4 +12,6 @@ import java.util.List;
 public interface CategoryService extends IService<Category> {
 
   List<CategoryTree> getAllCategory();
+
+    CategoryQuery getCategoryByPage(CategoryQuery query);
 }

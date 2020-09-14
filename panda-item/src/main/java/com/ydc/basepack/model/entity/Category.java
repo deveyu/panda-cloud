@@ -15,7 +15,7 @@ public class Category {
     private static final long serialVersionUID = 1L;
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    private String label;
+    private String name;
     private Long parentId;
     private Integer isParent;
     private Integer sort;

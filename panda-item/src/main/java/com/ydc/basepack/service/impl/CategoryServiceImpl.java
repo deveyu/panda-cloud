@@ -31,4 +31,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<CategoryTree> categoryTrees = TreeUtil.list2Tree(categories, CommonConstants.CATEGORY_TREE_ROOT);
         return categoryTrees;
     }
+
+    @Override
+    public CategoryQuery getCategoryByPage(CategoryQuery query) {
+        query.setAsc("sort");
+        categoryMapper.getCategoryByPage(query);
+        return query;
+    }
 }

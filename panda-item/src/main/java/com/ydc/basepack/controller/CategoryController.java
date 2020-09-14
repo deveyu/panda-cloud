@@ -28,11 +28,25 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
+    @ApiOperation(value = "分类信息树结构查询", notes = "分类信息树结构查询所有", httpMethod = "GET")
+    @ApiImplicitParam(name = "categoryTreeQuery", value = "分类信息查询类", required = false, dataType = "categoryQuery")
+    @GetMapping("tree/all")
+    public ApiResult<List<CategoryTree>> getAllCategory(){
+        return new ApiResult<List<CategoryTree>>(categoryService.getAllCategory());
+    }
+
+//    @ApiOperation(value = "分类信息树结构查询", notes = "根据parentId查询分类", httpMethod = "GET")
+//    @ApiImplicitParam(name = "categoryQueryById", value = "分类信息查询类", required = true, dataType = "categoryQuery")
+//    @GetMapping("tree/{id}")
+//    public ApiResult<List<Category>> getCategoryByParentId(){
+//        return new ApiResult<List<Category>>(categoryService.getCategoryByParentId());
+//    }
+
     @ApiOperation(value = "分类信息分页查询", notes = "分类信息分页查询", httpMethod = "GET")
     @ApiImplicitParam(name = "categoryQuery", value = "分类信息查询类", required = false, dataType = "categoryQuery")
     @GetMapping("page")
-    public ApiResult<List<CategoryTree>> getAllCategory(){
-        return new ApiResult<List<CategoryTree>>(categoryService.getAllCategory());
+    public ApiResult<CategoryQuery> getCategoryByPage(CategoryQuery query){
+        return new ApiResult<>(categoryService.getCategoryByPage(query));
     }
 
 
