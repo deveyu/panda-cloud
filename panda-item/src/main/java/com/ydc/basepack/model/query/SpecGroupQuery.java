@@ -1,9 +1,9 @@
-package com.ydc.basepack.model.dto;
+package com.ydc.basepack.model.query;
 
 import lombok.Data;
 
 @Data
-public class SpecGroupDTO {
+public class SpecGroupQuery {
     private Long id;
 
     private Long cid;

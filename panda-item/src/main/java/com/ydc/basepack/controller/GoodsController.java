@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @author pc
+ */
 @RestController
 @RequestMapping("goods")
 @Api(value = "商品controller", tags = {"商品操作接口"})

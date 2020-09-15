@@ -11,7 +11,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableDiscoveryClient
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = {"com.ydc.basepack", "com.yukong.panda.common"})
-@MapperScan("com.ydc.basepack.mapper")//为什么user-service没有加上
 public class PandaItemApplication {
 
     public static void main(String[] args) {

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class CategoryTree {
     private Long id;
-    private String label;
+    private String name;
     private Long parentId;
     private Integer isParent;
     private Integer sort;
