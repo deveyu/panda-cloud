@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface SpuMapper extends BaseMapper<Spu> {
 
-    List<Spu> queryAll();
 }

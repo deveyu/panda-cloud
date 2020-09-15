@@ -26,6 +26,7 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
 
     @Override
     public SpuDTO queryByPage(SpuDTO spuDTO) {
-        return null;
+        spuMapper.pageByQuery(spuDTO);
+        return spuDTO;
     }
 }
