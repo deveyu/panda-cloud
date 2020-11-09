@@ -360,7 +360,7 @@ CREATE TABLE `sys_oauth_client_details` (
   `addition_information` varchar(4096) DEFAULT NULL,
   `autoapprove` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='oauth2客户端资源认证表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='oauth2客户端资源认证表' ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oauth_client_details

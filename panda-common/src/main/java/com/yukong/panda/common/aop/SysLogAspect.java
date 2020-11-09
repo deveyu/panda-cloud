@@ -28,6 +28,8 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 
 /**
+ *
+ * 使用rabbitmq异步记录日志
  * @author: yukong
  * @date: 2018/11/14 11:26
  */
@@ -70,7 +72,7 @@ public class SysLogAspect {
             sysLogDTO.setCreateBy(username);
         }
         try {
-            result = pjp.proceed();
+            result = pjp.proceed();//处理请求
             sysLogDTO.setStatus(OperationStatusEnum.SUCCESS.getCode());
         } catch (Throwable e) {
             sysLogDTO.setException(UrlUtil.getTrace(e));

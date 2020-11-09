@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @MapperScan("com.yukong.panda.user.mapper")
-public class MybatisPlusConfig {
+public class    MybatisPlusConfig {
 
 
     /**

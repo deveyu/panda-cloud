@@ -10,11 +10,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author yukong
+ * 数据字典
+ * @author ydc
  * @date 2019-01-23 10:39
  */
 @Data
-@Accessors(chain = true)
+//@Accessors用于配置getter和setter方法的生成结果
+@Accessors(chain = true)//chain的中文含义是链式的，设置为true，则setter方法返回当前对象。
 public class SysDict implements Serializable {
 
     private static final long serialVersionUID = 1L;
