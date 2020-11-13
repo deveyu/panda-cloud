@@ -117,3 +117,5 @@ panda.iml
 target/classes/bootstrap.yml
 target/generated-sources/
 target/generated-test-sources/
+/**/target
+*.iml

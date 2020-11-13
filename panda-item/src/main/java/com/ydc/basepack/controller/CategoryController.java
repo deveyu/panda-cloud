@@ -12,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class CategoryController {
 
     @ApiOperation(value = "添加分类", notes = "添加分类", httpMethod = "POST")
     @ApiImplicitParam(name = "categoryAdd", value = "添加分类", required = false, dataType = "categoryAdd")
-    @GetMapping("page")
+    @PostMapping("save")
     public ApiResult<Boolean> addCategory(@RequestBody Category category){
         return new ApiResult<Boolean>(categoryService.save(category));
     }
