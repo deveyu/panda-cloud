@@ -2,6 +2,7 @@ package com.ydc.basepack.controller;
 
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.extra.ftp.Ftp;
 import com.ydc.basepack.model.dto.BrandDTO;
 import com.ydc.basepack.model.entity.Brand;
 import com.ydc.basepack.model.query.BrandQuery;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.security.krb5.internal.crypto.Des;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.PastOrPresent;
 import java.io.File;
@@ -32,6 +34,8 @@ public class BrandController {
 
     @Autowired
     private BrandService brandService;
+    @Resource
+    private Ftp ftpUtil;
 
 
     @ApiOperation(value = "品牌信息分页查询", notes = "品牌信息分页查询", httpMethod = "GET")
@@ -42,6 +46,45 @@ public class BrandController {
     }
 
 
+//    @ApiOperation(value = "品牌商标上传", notes = "品牌商标上传", httpMethod = "POST")
+//    @ApiImplicitParam(name = "imageUpload", value = "品牌商标上传", required = false, dataType = "imageUpload")
+//    @PostMapping("uploadImage")
+//    public ApiResult<String> uploadImage(@RequestParam("file") MultipartFile uploadFile, HttpServletRequest req) throws IOException {
+//        // 判断文件是否为空，空则返回失败页面
+//        if (uploadFile.isEmpty()) {
+//            return new ApiResult<>("上传失败");
+//        }
+//        //获得项目的类路径
+//        String path = ResourceUtils.getURL("classpath:").getPath();
+//        //空文件夹在编译时不会打包进入target中
+//        File uploadDir = new File(path + "/static/image/brand/");
+//        if (!uploadDir.exists()) {
+//            log.info("上传路径不存在，正在创建...");
+//            if (uploadDir.mkdirs()) {//注意是mkdirs
+//                log.info("上传文件夹创建成功");
+//            }
+//        }
+//        File avatar=null;
+//        //获得上传文件的文件名
+//        try {
+//            String oldName = uploadFile.getOriginalFilename();
+//            log.info("[上传的文件名]：" + oldName);
+//            //我的文件保存在static目录下的avatar/user
+//             avatar = new File(path + "static/image/brand/", oldName);
+//            //保存图片
+//            uploadFile.transferTo(avatar);
+//        } catch (IOException e) {
+//            log.info("文件操作失败",e);
+//        } catch (IllegalStateException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        //返回成功结果，附带文件的相对路径  E:\IdeaProjects\panda-cloud\panda-item\target\classes\static\image\brand
+//        return new ApiResult<>(avatar.getAbsolutePath(), "上传成功");
+//    }
+
+
     @ApiOperation(value = "品牌商标上传", notes = "品牌商标上传", httpMethod = "POST")
     @ApiImplicitParam(name = "imageUpload", value = "品牌商标上传", required = false, dataType = "imageUpload")
     @PostMapping("uploadImage")
@@ -50,6 +93,7 @@ public class BrandController {
         if (uploadFile.isEmpty()) {
             return new ApiResult<>("上传失败");
         }
+
         //获得项目的类路径
         String path = ResourceUtils.getURL("classpath:").getPath();
         //空文件夹在编译时不会打包进入target中
@@ -60,24 +104,31 @@ public class BrandController {
                 log.info("上传文件夹创建成功");
             }
         }
-        File avatar=null;
+        File avatar = null;
         //获得上传文件的文件名
+
+        String oldName = uploadFile.getOriginalFilename();
+        log.info("[上传的文件名]：" + oldName);
+        //我的文件保存在static目录下的avatar/user
+        avatar= new File(path + "static/image/brand/", oldName);
+        //保存图片
+        String nginxPath= null;
         try {
-            String oldName = uploadFile.getOriginalFilename();
-            log.info("[上传的文件名]：" + oldName);
-            //我的文件保存在static目录下的avatar/user
-             avatar = new File(path + "static/image/brand/", oldName);
-            //保存图片
             uploadFile.transferTo(avatar);
+            //todo 图片放到该目录下不能访问,应该和nginx配置有关
+            //nginxPath = "http://119.45.104.69/ftp/root/brand/"+oldName;//没有该文件夹会自动创建
+            nginxPath = "http://119.45.104.69/ftp/root/"+oldName;//没有该文件夹会自动创建
+            ftpUtil.upload("/", avatar);
         } catch (IOException e) {
-            log.info("文件操作失败",e);
+            e.printStackTrace();
         } catch (IllegalStateException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        }finally {
+            //ftpUtil.close();
         }
-        //返回成功结果，附带文件的相对路径  E:\IdeaProjects\panda-cloud\panda-item\target\classes\static\image\brand
-        return new ApiResult<>(avatar.getAbsolutePath(), "上传成功");
+        return new ApiResult<>(nginxPath, "上传成功");
+
+
     }
 
 

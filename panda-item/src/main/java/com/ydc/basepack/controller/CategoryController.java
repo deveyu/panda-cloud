@@ -30,7 +30,7 @@ public class CategoryController {
     @ApiImplicitParam(name = "categoryTreeQuery", value = "分类信息查询类", required = false, dataType = "categoryQuery")
     @GetMapping("tree")
     public ApiResult<List<CategoryTree>> getAllCategory(){
-        return new ApiResult<List<CategoryTree>>(categoryService.getAllCategory());
+        return new ApiResult<>(categoryService.getAllCategory());
     }
 
     @ApiOperation(value = "分类信息分页查询", notes = "分类信息分页查询", httpMethod = "GET")
@@ -42,7 +42,7 @@ public class CategoryController {
 
     @ApiOperation(value = "添加分类", notes = "添加分类", httpMethod = "POST")
     @ApiImplicitParam(name = "categoryAdd", value = "添加分类", required = false, dataType = "categoryAdd")
-    @PostMapping("save")
+    @PostMapping
     public ApiResult<Boolean> addCategory(@RequestBody Category category){
         return new ApiResult<Boolean>(categoryService.save(category));
     }

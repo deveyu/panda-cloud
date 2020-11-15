@@ -3148,3 +3148,5 @@ CREATE TABLE `tb_user` (
 
 
 INSERT INTO `tb_user` VALUES ('28', 'zhangsan', 'e21d44f200365b57fab2641cd31226d4', '13600527633', '2019-04-04 22:58:26', '2019-04-04 22:58:26');
+
+update tb_sku set images =REPLACE(images,'image.leyou.com','119.45.104.69');
