@@ -10,6 +10,7 @@ import java.util.Date;
 public class BrandQuery extends Page<Brand> {
     private String name;
     private String letter;
+    private String delFlag;
 
 
 }

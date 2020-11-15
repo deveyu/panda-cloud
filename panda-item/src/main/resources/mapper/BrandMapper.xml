@@ -15,6 +15,9 @@
             <if test="letter != '' and letter != null">
                 and   letter  =#{letter}
             </if>
+            <if test="delFlag != '' and letter != null">
+                and   delFlag  =#{delFlag}
+            </if>
         </where>
     </select>
 

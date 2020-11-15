@@ -67,6 +67,8 @@ public class SysResourceServiceImpl  extends ServiceImpl<SysResourceMapper, SysR
         sysResource.setDelFlag(DataStatusEnum.LOCK.getCode());
         super.updateById(sysResource);
 
+
+        //只删除了子资源，孙子资源没有删除！！！
         SysResource resource = new SysResource();
         resource.setDelFlag(DataStatusEnum.LOCK.getCode());
         UpdateWrapper<SysResource> wrapper = new UpdateWrapper<>();

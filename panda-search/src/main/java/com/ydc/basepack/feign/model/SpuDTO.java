@@ -1,9 +1,7 @@
-package com.ydc.basepack.model.dto;
+package com.ydc.basepack.feign.model;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ydc.basepack.model.entity.Spu;
 import lombok.Data;
 
 import java.util.Arrays;

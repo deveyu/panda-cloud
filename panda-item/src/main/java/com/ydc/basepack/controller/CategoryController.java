@@ -28,7 +28,7 @@ public class CategoryController {
 
     @ApiOperation(value = "分类信息树结构查询", notes = "分类信息树结构查询所有", httpMethod = "GET")
     @ApiImplicitParam(name = "categoryTreeQuery", value = "分类信息查询类", required = false, dataType = "categoryQuery")
-    @GetMapping("tree/all")
+    @GetMapping("tree")
     public ApiResult<List<CategoryTree>> getAllCategory(){
         return new ApiResult<List<CategoryTree>>(categoryService.getAllCategory());
     }

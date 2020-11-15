@@ -3,11 +3,20 @@
 <mapper namespace="com.ydc.basepack.mapper.SpecGroupMapper">
 
 
-    <select id="pageByQuery" resultType="com.ydc.basepack.model.entity.SpecGroup" >
+    <select id="pageByQuery" resultType="com.ydc.basepack.model.entity.SpecGroup">
         select
-            *
-         from
-             tb_spec_group
+        *
+        from
+        tb_spec_group
+        <where>
+            <if test="cid!=null ">
+                and  cid=#{cid}
+            </if>
+            <if test="name!=null and name!=''">
+                and  name=#{name}
+            </if>
+        </where>
+
     </select>
 
 </mapper>

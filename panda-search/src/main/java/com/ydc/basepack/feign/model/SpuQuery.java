@@ -1,9 +1,7 @@
-package com.ydc.basepack.model.dto;
+package com.ydc.basepack.feign.model;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ydc.basepack.model.entity.Spu;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -11,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class SpuDTO extends Page<Spu> {
+public class SpuQuery extends Page<SpuDTO> {
     private Long id;
     private Long brandId;
     private Long cid1;// 1级类目

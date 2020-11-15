@@ -3,11 +3,31 @@
 <mapper namespace="com.ydc.basepack.mapper.SpuMapper">
 
 
-    <select id="pageByQuery" resultType="com.ydc.basepack.model.entity.Spu" >
+    <select id="pageByQuery" resultType="com.ydc.basepack.model.dto.SpuDTO">
         select
-            *
-         from
-             tb_spu
+        *
+        from
+        tb_spu
+        <where>
+            <if test="name!=null and name!=''">
+                and name like concat("%",#{name},"%")
+            </if>
+            <if test="saleable!=null and saleable!=''">
+                and saleable = #{saleable}
+            </if>
+        </where>
+    </select>
+
+    <select id="querySpuDetailById" resultType="com.ydc.basepack.model.dto.SpuDetailDTO">
+        select
+        *
+        from
+        tb_spu_detail
+        <where>
+            <if test="spuId!=null">
+                and spu_id=#{spuId}
+            </if>
+        </where>
     </select>
 
 </mapper>
