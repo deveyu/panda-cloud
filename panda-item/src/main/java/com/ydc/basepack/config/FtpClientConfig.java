@@ -17,6 +17,10 @@ import org.springframework.context.annotation.DependsOn;
 public class FtpClientConfig {
 
 
+    /**
+     *
+     * @return
+     */
     @Bean("ftpConfig")
     @ConfigurationProperties(prefix = "ftp")
     public FtpConfig getFtpConfig() {
@@ -25,10 +29,17 @@ public class FtpClientConfig {
         return ftpConfig;
     }
 
+    /**
+     * todo 疑问：FtpClient是否应该为单例？？如果是单例Ftpclinet.close将会导致空指针
+     * @param ftpConfig
+     * @return
+     */
     @Bean(name = "ftpClientUtil")
     @DependsOn("ftpConfig")
     public Ftp createFtp(@Qualifier("ftpConfig")FtpConfig ftpConfig) {
-        Ftp ftp = new Ftp(ftpConfig, FtpMode.Active);
+
+        //选择模式：要看源码，此处要看到apache FtpClient enterLocalPassiveMode()但是鉴于本人能力未能看懂
+        Ftp ftp = new Ftp(ftpConfig, FtpMode.Passive);
         return ftp;
     }
 

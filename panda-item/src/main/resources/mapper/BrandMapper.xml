@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ydc.basepack.mapper.BrandMapper">
+    <!-- BrandDTO 结果集 -->
+    <resultMap id="brandResultMap" type="com.ydc.basepack.model.dto.BrandDTO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="image" property="image"/>
+        <result column="letter" property="letter"/>
 
+        <collection property="categoryList" ofType="com.ydc.basepack.model.entity.Category">
+            <id column="cid" property="id"/>
+            <result column="cname" property="name"/>
+        </collection>
+    </resultMap>
 
-    <select id="pageBrandByQuery" resultType="com.ydc.basepack.model.entity.Brand" >
-        select
-            *
-         from
-             tb_brand
-        <where >
+    <select id="pageBrandByQuery" resultMap="brandResultMap">
+        SELECT
+        b.id,
+        b.NAME,
+        b.image,
+        b.letter,
+        c.id AS cid,
+        c.NAME AS cname
+        FROM
+        tb_brand b
+        LEFT JOIN tb_category_brand bc ON b.id = bc.brand_id
+        LEFT JOIN tb_category c ON c.id = bc.category_id
+        <where>
             <if test="name != '' and name != null">
-                and   name  like concat('%',#{name},'%')
+                and b.name like concat('%',#{name},'%')
             </if>
             <if test="letter != '' and letter != null">
-                and   letter  =#{letter}
+                and b.letter =#{letter}
             </if>
             <if test="delFlag != '' and delFlag != null">
-                and   del_flag  =#{delFlag}
+                and b.del_flag =#{delFlag}
             </if>
         </where>
     </select>

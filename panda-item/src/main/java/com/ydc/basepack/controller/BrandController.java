@@ -75,8 +75,8 @@ public class BrandController {
             multipartFile.transferTo(avatar);
             //todo 图片放到该目录下不能访问,应该和nginx配置有关
             //nginxPath = "http://119.45.104.69/ftp/root/brand/"+oldName;//没有该文件夹会自动创建
-            nginxPath = "http://119.45.104.69/ftp/root/"+oldName;//没有该文件夹会自动创建
-            ftpClientUtil.upload("/", avatar);
+            nginxPath = "http://119.45.104.69/ftp/root/brand/"+oldName;//没有该文件夹会自动创建
+            ftpClientUtil.upload("/brand", avatar);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {

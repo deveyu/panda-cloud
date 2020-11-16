@@ -19,7 +19,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     @Override
     public BrandQuery pageBrandByQuery(BrandQuery query) {
         query.setDelFlag(DataStatusEnum.NORMAL.getCode());
-        query.setDesc("create_time","update_time");
+        //query.setDesc("create_time","update_time");
         brandMapper.pageBrandByQuery(query);
         return query;
     }
