@@ -18,4 +18,5 @@ public class BrandDTO {
     private String name;
     private String image;
     private String letter;
+    private List<List<Long>> cids;  // [[1,2,3],[34,35,53]]
 }
