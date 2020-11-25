@@ -25,7 +25,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
             throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         response.setContentType("application/json;charset=UTF-8");
-        ApiResult<String> result = new ApiResult<>(authException, ResponseCodeEnum.PERMISSION_DEFINED);
+        ApiResult<String> result = new ApiResult<>(authException, ResponseCodeEnum.UN_AUTHORIZED);
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(objectMapper.writeValueAsString(result));

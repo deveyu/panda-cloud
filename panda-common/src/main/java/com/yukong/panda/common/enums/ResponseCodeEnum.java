@@ -1,20 +1,40 @@
 package com.yukong.panda.common.enums;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
- * @author: yukong
+ * @author: ydc
  * @date: 2018/10/12 10:51
  * @description: 响应信息code枚举
  */
 public enum  ResponseCodeEnum {
 
-    SUCCESS(0, "success"),
+    SUCCESS(HttpServletResponse.SC_OK, "Operation is Successful"),
 
-    NOT_LOGIN(-1,"need login"),
+    //业务异常
+    FAILURE(HttpServletResponse.SC_BAD_REQUEST, "Biz Exception"),
 
-    FAIL(-1,"fail"),
+    UN_AUTHORIZED(HttpServletResponse.SC_UNAUTHORIZED, "Request Unauthorized"),
 
-    PERMISSION_DEFINED(2,"permission defined");
+    NOT_FOUND(HttpServletResponse.SC_NOT_FOUND, "404 Not Found"),
 
+    MSG_NOT_READABLE(HttpServletResponse.SC_BAD_REQUEST, "Message Can't be Read"),
+
+    METHOD_NOT_SUPPORTED(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Method Not Supported"),
+
+    MEDIA_TYPE_NOT_SUPPORTED(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Media Type Not Supported"),
+
+    REQ_REJECT(HttpServletResponse.SC_FORBIDDEN, "Request Rejected"),
+
+    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error"),
+
+    PARAM_MISS(HttpServletResponse.SC_BAD_REQUEST, "Missing Required Parameter"),
+
+    PARAM_TYPE_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Type Mismatch"),
+
+    PARAM_BIND_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Binding Error"),
+
+    PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error");
 
     private Integer code;
 

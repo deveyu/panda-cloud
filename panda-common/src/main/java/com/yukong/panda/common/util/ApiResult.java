@@ -1,26 +1,30 @@
 package com.yukong.panda.common.util;
 
 import com.yukong.panda.common.enums.ResponseCodeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * @author: yukong
+ * @author: ydc
  * @date: 2018/10/12 10:39
  * @description: 统一响应信息主体
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApiResult<T> implements Serializable {
 
     private T data;
-
-    private Integer code = ResponseCodeEnum.SUCCESS.getCode();
+    @Builder.Default
+    private ResponseCodeEnum code = ResponseCodeEnum.SUCCESS;
 
     private String message = ResponseCodeEnum.SUCCESS.getMessage();
 
-    public ApiResult() {
-    }
 
     public ApiResult(T data) {
         this.data = data;
@@ -33,18 +37,18 @@ public class ApiResult<T> implements Serializable {
 
     public ApiResult(T data, ResponseCodeEnum responseCode) {
         this.data = data;
-        this.code = responseCode.getCode();
+        this.code = responseCode;
         this.message = responseCode.getMessage();
     }
 
     public ApiResult(Throwable throwable) {
         this.message = throwable.getMessage();
-        this.code = ResponseCodeEnum.FAIL.getCode();
+        this.code = ResponseCodeEnum.INTERNAL_SERVER_ERROR;
     }
 
     public ApiResult(Throwable throwable, ResponseCodeEnum  code) {
         this.message = throwable.getMessage();
-        this.code = code.getCode();
+        this.code = code;
     }
 
 

@@ -2,7 +2,7 @@ package com.yukong.panda.gateway.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yukong.panda.common.enums.ResponseCodeEnum;
-import com.yukong.panda.common.exception.PermissionDefinedException;
+import com.yukong.panda.common.exception.PermissionDeniedException;
 import com.yukong.panda.common.util.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("授权失败, 禁止访问{}", request.getRequestURI());
         response.setContentType("application/json;charset=UTF-8");
-        ApiResult<String> result = new ApiResult<>(new PermissionDefinedException(), ResponseCodeEnum.PERMISSION_DEFINED);
+        ApiResult<String> result = new ApiResult<>(new PermissionDeniedException("授权失败"), ResponseCodeEnum.UN_AUTHORIZED);
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(objectMapper.writeValueAsString(result));

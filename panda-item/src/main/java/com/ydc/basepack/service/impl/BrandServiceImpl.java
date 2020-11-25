@@ -10,12 +10,17 @@ import com.ydc.basepack.service.BrandService;
 import com.yukong.panda.common.enums.DataStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements BrandService {
 
     @Autowired
     private BrandMapper brandMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public BrandQuery pageBrandByQuery(BrandQuery query) {
         query.setDelFlag(DataStatusEnum.NORMAL.getCode());

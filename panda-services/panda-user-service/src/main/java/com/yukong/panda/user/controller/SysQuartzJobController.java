@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.yukong.panda.common.base.controller.BaseController;
 import com.yukong.panda.common.constants.CommonConstants;
 import com.yukong.panda.common.enums.JobDataStatusEnum;
-import com.yukong.panda.common.exception.PandaException;
+import com.yukong.panda.common.exception.ServiceException;
 import com.yukong.panda.common.util.UserUtil;
 import com.yukong.panda.user.model.entity.SysQuartzJob;
 import com.yukong.panda.user.model.query.SysQuartzJobQuery;
@@ -83,7 +83,7 @@ public class SysQuartzJobController extends BaseController<SysQuartzJobService, 
         try {
             scheduler.pauseJob(JobKey.jobKey(job.getJobClassName()));
         } catch (SchedulerException e) {
-            throw new PandaException("暂停定时任务失败");
+            throw new ServiceException("暂停定时任务失败");
         }
         job.setStatus(JobDataStatusEnum.STOP.getCode());
         job.setUpdateBy(UserUtil.getUserName(request));
@@ -100,7 +100,7 @@ public class SysQuartzJobController extends BaseController<SysQuartzJobService, 
         try {
             scheduler.resumeJob(JobKey.jobKey(job.getJobClassName()));
         } catch (SchedulerException e) {
-            throw new PandaException("恢复定时任务失败");
+            throw new ServiceException("恢复定时任务失败");
         }
         job.setStatus(JobDataStatusEnum.UP.getCode());
         baseService.updateById(job);
@@ -145,11 +145,11 @@ public class SysQuartzJobController extends BaseController<SysQuartzJobService, 
                     .withSchedule(scheduleBuilder).build();
 
             scheduler.scheduleJob(jobDetail, trigger);
-        } catch (PandaException e) {
+        } catch (ServiceException e) {
             log.error(e.toString());
-            throw new PandaException("创建定时任务失败");
+            throw new ServiceException("创建定时任务失败");
         } catch (Exception e){
-            throw new PandaException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ public class SysQuartzJobController extends BaseController<SysQuartzJobService, 
             scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName));
             scheduler.deleteJob(JobKey.jobKey(jobClassName));
         } catch (Exception e) {
-            throw new PandaException("删除定时任务失败");
+            throw new ServiceException("删除定时任务失败");
         }
     }
 
