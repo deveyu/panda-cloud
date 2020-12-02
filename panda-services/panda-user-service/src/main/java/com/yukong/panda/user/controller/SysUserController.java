@@ -136,12 +136,12 @@ public class SysUserController {
         Object originCode  = redisTemplate.opsForValue().get(SecurityConstants.REDIS_CODE_PREFIX + mobile);
         if(originCode != null) {
             log.info("手机号{}验证码{}尚未失效，请失效后再申请。", mobile, originCode);
-            return new ApiResult<>("验证码尚未失效", ResponseCodeEnum.FAIL);
+            return new ApiResult<>("验证码尚未失效", ResponseCodeEnum.FAILURE);
         }
         SysUserVo sysUserVo = sysUserService.loadUserByMobile(mobile);
         if(sysUserVo == null) {
             log.error("手机号为{} 用户不存在", mobile);
-            return new ApiResult<String>("手机号不存在", ResponseCodeEnum.FAIL);
+            return new ApiResult<String>("手机号不存在", ResponseCodeEnum.FAILURE);
         }
         String code = RandomStringUtils.random(4, false, true);
         String[] params = {code};

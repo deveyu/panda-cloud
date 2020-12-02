@@ -13,4 +13,6 @@ public interface SpecGroupService extends IService<SpecGroup> {
 
 
     SpecGroupQuery pageSpecGroupByCategory(SpecGroupQuery query);
+
+    Boolean addSpecGroup(SpecGroup specGroup);
 }

@@ -8,6 +8,8 @@ import com.ydc.basepack.service.SpecGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class SpecGroupServiceImpl extends ServiceImpl<SpecGroupMapper, SpecGroup> implements SpecGroupService {
 
@@ -19,5 +21,12 @@ public class SpecGroupServiceImpl extends ServiceImpl<SpecGroupMapper, SpecGroup
     public SpecGroupQuery pageSpecGroupByCategory(SpecGroupQuery query) {
         SpecGroupMapper.pageByQuery(query);
         return query;
+    }
+
+    @Override
+    public Boolean addSpecGroup(SpecGroup specGroup) {
+        specGroup.setCreateTime(new Date());
+        SpecGroupMapper.insert(specGroup);
+        return Boolean.TRUE;
     }
 }

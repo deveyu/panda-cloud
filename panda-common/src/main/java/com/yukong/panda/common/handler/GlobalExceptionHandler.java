@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
         String message = String.format("Missing Request Parameter: %s", e.getParameterName());
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.PARAM_MISS)
+                .code(ResponseCodeEnum.PARAM_MISS.getCode())
                 .message(message)
                 .build();
     }
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
         String message = String.format("Method Argument Type Mismatch: %s", e.getName());
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.PARAM_TYPE_ERROR)
+                .code(ResponseCodeEnum.PARAM_TYPE_ERROR.getCode())
                 .message(message)
                 .build();
     }
@@ -84,7 +84,7 @@ public class GlobalExceptionHandler {
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.PARAM_VALID_ERROR)
+                .code(ResponseCodeEnum.PARAM_VALID_ERROR.getCode())
                 .message(message)
                 .build();
     }
@@ -101,7 +101,7 @@ public class GlobalExceptionHandler {
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.PARAM_BIND_ERROR)
+                .code(ResponseCodeEnum.PARAM_BIND_ERROR.getCode())
                 .message(message)
                 .build();
     }
@@ -120,7 +120,7 @@ public class GlobalExceptionHandler {
         String message = String.format("%s:%s", path, violation.getMessage());
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.PARAM_VALID_ERROR)
+                .code(ResponseCodeEnum.PARAM_VALID_ERROR.getCode())
                 .message(message)
                 .build();
     }
@@ -130,7 +130,7 @@ public class GlobalExceptionHandler {
         log.error("404 Not Found", e);
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.NOT_FOUND)
+                .code(ResponseCodeEnum.NOT_FOUND.getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -140,7 +140,7 @@ public class GlobalExceptionHandler {
         log.error("Message Not Readable", e);
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.MSG_NOT_READABLE)
+                .code(ResponseCodeEnum.MSG_NOT_READABLE.getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -150,7 +150,7 @@ public class GlobalExceptionHandler {
         log.error("Request Method Not Supported", e);
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.METHOD_NOT_SUPPORTED)
+                .code(ResponseCodeEnum.METHOD_NOT_SUPPORTED.getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -160,7 +160,7 @@ public class GlobalExceptionHandler {
         log.error("Media Type Not Supported", e);
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.MEDIA_TYPE_NOT_SUPPORTED)
+                .code(ResponseCodeEnum.MEDIA_TYPE_NOT_SUPPORTED.getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -170,7 +170,7 @@ public class GlobalExceptionHandler {
         log.error("Service Exception", e);
         return ApiResult
                 .builder()
-                .code(e.getResponseCodeEnum())
+                .code(e.getResponseCodeEnum().getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -180,7 +180,7 @@ public class GlobalExceptionHandler {
         log.error("Permission Denied", e);
         return ApiResult
                 .builder()
-                .code(e.getResponseCodeEnum())
+                .code(e.getResponseCodeEnum().getCode())
                 .message(e.getMessage())
                 .build();
     }
@@ -191,7 +191,7 @@ public class GlobalExceptionHandler {
         log.error("Internal Server Error", e);
         return ApiResult
                 .builder()
-                .code(ResponseCodeEnum.INTERNAL_SERVER_ERROR)
+                .code(ResponseCodeEnum.INTERNAL_SERVER_ERROR.getCode())
                 .message(e.getMessage())
                 .build();
     }

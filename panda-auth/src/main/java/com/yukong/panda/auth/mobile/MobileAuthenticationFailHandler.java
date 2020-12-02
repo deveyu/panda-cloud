@@ -47,6 +47,6 @@ public class MobileAuthenticationFailHandler implements AuthenticationFailureHan
         response.setCharacterEncoding(UTF8);
         response.setContentType(CONTENT_TYPE);
         PrintWriter printWriter = response.getWriter();
-        printWriter.append(objectMapper.writeValueAsString(new ApiResult<>(exception.getMessage(), ResponseCodeEnum.FAIL)));
+        printWriter.append(objectMapper.writeValueAsString(new ApiResult<>(exception.getMessage(), ResponseCodeEnum.FAILURE)));
     }
 }

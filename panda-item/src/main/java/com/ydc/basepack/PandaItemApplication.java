@@ -11,6 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableDiscoveryClient
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = {"com.ydc.basepack", "com.yukong.panda.common"})
+@MapperScan(basePackages = {"com.ydc.basepack.mapper"})
 public class PandaItemApplication {
 
     public static void main(String[] args) {

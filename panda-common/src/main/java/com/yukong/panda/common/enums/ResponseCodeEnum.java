@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public enum  ResponseCodeEnum {
 
-    SUCCESS(HttpServletResponse.SC_OK, "Operation is Successful"),
+    //为了兼容以前的api,显示0
+    SUCCESS(0, "Operation is Successful"),
+    //SUCCESS(HttpServletResponse.SC_OK, "Operation is Successful"),
 
     //业务异常
     FAILURE(HttpServletResponse.SC_BAD_REQUEST, "Biz Exception"),

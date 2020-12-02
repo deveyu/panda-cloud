@@ -14,14 +14,13 @@ import java.io.Serializable;
  * @description: 统一响应信息主体
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ApiResult<T> implements Serializable {
 
     private T data;
-    @Builder.Default
-    private ResponseCodeEnum code = ResponseCodeEnum.SUCCESS;
+
+    private Integer code = ResponseCodeEnum.SUCCESS.getCode();
 
     private String message = ResponseCodeEnum.SUCCESS.getMessage();
 
@@ -37,18 +36,18 @@ public class ApiResult<T> implements Serializable {
 
     public ApiResult(T data, ResponseCodeEnum responseCode) {
         this.data = data;
-        this.code = responseCode;
+        this.code = responseCode.getCode();
         this.message = responseCode.getMessage();
     }
 
     public ApiResult(Throwable throwable) {
         this.message = throwable.getMessage();
-        this.code = ResponseCodeEnum.INTERNAL_SERVER_ERROR;
+        this.code = ResponseCodeEnum.INTERNAL_SERVER_ERROR.getCode();
     }
 
     public ApiResult(Throwable throwable, ResponseCodeEnum  code) {
         this.message = throwable.getMessage();
-        this.code = code;
+        this.code = code.getCode();
     }
 
 
