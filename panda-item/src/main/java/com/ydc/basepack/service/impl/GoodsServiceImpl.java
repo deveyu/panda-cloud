@@ -52,6 +52,7 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
         spuMapper.pageByQuery(spuQuery);
         List<SpuDTO> records = spuQuery.getRecords();
 
+        //todo 获取返回结果后有查询两次数据库；这里与使用多表连接究竟哪个快？
         if(!CollectionUtils.isEmpty(records)){
             for (SpuDTO record : records) {
                 String categoryName=categoryService.listByIds(record.getCategoryIds())

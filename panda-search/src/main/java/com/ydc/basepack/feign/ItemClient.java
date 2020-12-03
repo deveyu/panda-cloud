@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ * feign的用法：
+ * 首先调用方被调用方都要注册到注册中心
+ * 调用方copy被调用的接口声明（在这里就是该接口）；或者被调用方的接口把所有需要对外提供的接口写到一个client中：ItemClient，以jar包的形式给调用方
+ * 有了feignClient,可以说三层才完整，controller层终于有接口了！
+ *
+ */
 @FeignClient(value = "item-service")
 public interface ItemClient {
 
@@ -28,13 +35,13 @@ public interface ItemClient {
     @ApiOperation(value = "商品详情查询", notes = "根据spuId查询商品详情", httpMethod = "GET")
     @ApiImplicitParam(name = "spuDetailQuery", value = "商品详情查询", required = false, dataType = "spuDetailQuery")
     @GetMapping("/spu/detail/{spuId}")
-    public ApiResult<SpuDetailDTO> querySpuDetailById(@PathVariable("spuId") Long id) ;
+    ApiResult<SpuDetailDTO> querySpuDetailById(@PathVariable("spuId") Long id) ;
 
 
     @ApiOperation(value = "商品sku查询", notes = "根据spuId查询商品sku", httpMethod = "GET")
     @ApiImplicitParam(name = "skuQuery", value = "商品详情查询", required = false, dataType = "skuQuery")
     @GetMapping("sku/of/spu")
-    public ApiResult<List<SkuDTO>> querySkuBySpuId(@RequestParam("id") Long id) ;
+     ApiResult<List<SkuDTO>> querySkuBySpuId(@RequestParam("id") Long id) ;
 
 
 
