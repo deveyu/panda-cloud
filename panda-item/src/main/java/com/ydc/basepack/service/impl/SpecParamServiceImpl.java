@@ -32,4 +32,13 @@ public class SpecParamServiceImpl extends ServiceImpl<SpecParamMapper, SpecParam
         List<SpecParamDTO> specParamDTOS = BeanHelper.copyWithCollection(specParams, SpecParamDTO.class);
         return specParamDTOS;
     }
+
+    @Override
+    public List<SpecParamDTO> getSpecParamByCid(Long cid) {
+        QueryWrapper<SpecParam> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SpecParam::getCid, cid);
+        List<SpecParam> specParams = specParamMapper.selectList(wrapper);
+        List<SpecParamDTO> specParamDTOS = BeanHelper.copyWithCollection(specParams, SpecParamDTO.class);
+        return specParamDTOS;
+    }
 }

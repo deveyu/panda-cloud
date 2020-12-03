@@ -16,4 +16,6 @@ public interface SpecParamService extends IService<SpecParam> {
 
 
     List<SpecParamDTO> getSpecParamByGid(Long gid);
+
+    List<SpecParamDTO> getSpecParamByCid(Long cid);
 }

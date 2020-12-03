@@ -38,4 +38,11 @@ public class SpecParamController {
         return new ApiResult<>(specParamService.getSpecParamByGid(gid));
     }
 
+    @ApiOperation(value = "规格参数信息查询", notes = "按照分类id查询规格参数信息", httpMethod = "GET")
+    @ApiImplicitParam(name = "specParamQuery", value = "规格组信息查询类", required = false, dataType = "specParamQuery")
+    @GetMapping("of/category/{cid}")
+    public ApiResult<List<SpecParamDTO>> getSpecParamByCid(@PathVariable("cid") Long cid){
+        return new ApiResult<>(specParamService.getSpecParamByCid(cid));
+    }
+
 }
