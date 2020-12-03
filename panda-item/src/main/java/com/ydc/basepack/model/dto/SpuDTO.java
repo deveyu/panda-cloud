@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class SpuDTO extends Page<Spu> {
+public class SpuDTO {
     private Long id;
     private Long brandId;
     private Long cid1;// 1级类目

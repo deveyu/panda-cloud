@@ -14,6 +14,8 @@ import com.ydc.basepack.service.BrandService;
 import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.util.TreeUtil;
 import com.yukong.panda.common.constants.CommonConstants;
+import com.yukong.panda.common.constants.RedisKey;
+import com.yukong.panda.common.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private RedisService redisService;
     @Override
     public List<CategoryTree> getAllCategory() {
+
+
         QueryWrapper<Category> query = new QueryWrapper<>();
         List<Category> categories = categoryMapper.queryAll();
         List<CategoryTree> categoryTrees = TreeUtil.list2Tree(categories, CommonConstants.CATEGORY_TREE_ROOT);

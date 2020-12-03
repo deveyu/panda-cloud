@@ -34,7 +34,7 @@ public class GoodsController {
     @ApiOperation(value = "商品信息分页查询", notes = "商品信息分页查询", httpMethod = "GET")
     @ApiImplicitParam(name = "goodsQuery", value = "商品信息查询类", required = false, dataType = "goodsQuery")
     @GetMapping("page")
-    public ApiResult<IPage<SpuDTO>> queryByPage(SpuQuery spuQuery) {
+    public ApiResult<SpuQuery> queryByPage(SpuQuery spuQuery) {
         return new ApiResult<>(goodsService.queryByPage(spuQuery));
     }
 

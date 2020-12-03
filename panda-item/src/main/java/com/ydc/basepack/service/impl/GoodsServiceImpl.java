@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,21 +51,20 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
     public SpuQuery queryByPage(SpuQuery spuQuery) {
 
         spuMapper.pageByQuery(spuQuery);
-        List<SpuDTO> records = spuQuery.getRecords();
+        List<Spu> records = spuQuery.getRecords();
+        List<SpuDTO> dtoList = BeanHelper.copyWithCollection(records, SpuDTO.class);
+        spuQuery.setSRecords(dtoList);
 
         //todo 获取返回结果后有查询两次数据库；这里与使用多表连接究竟哪个快？
-        if(!CollectionUtils.isEmpty(records)){
-            for (SpuDTO record : records) {
+        if(!CollectionUtils.isEmpty(dtoList)){
+            for (SpuDTO record : dtoList) {
                 String categoryName=categoryService.listByIds(record.getCategoryIds())
                         .stream().map(Category::getName).collect(Collectors.joining("/"));
                 record.setCategoryName(categoryName);
-
                 Brand brand = brandService.getById(record.getBrandId());
                 record.setBrandName(brand.getName());
-
             }
         }
-
         return spuQuery;
     }
 

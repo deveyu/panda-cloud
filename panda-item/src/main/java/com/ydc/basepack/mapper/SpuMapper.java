@@ -12,8 +12,7 @@ import java.util.List;
 
 public interface SpuMapper extends BaseMapper<Spu> {
 
-
-    SpuQuery pageByQuery(SpuQuery query);
+    IPage<Spu> pageByQuery(SpuQuery query);
 
     SpuDetailDTO querySpuDetailById(Long id);
 
