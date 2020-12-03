@@ -18,6 +18,7 @@ import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.util.TreeUtil;
 import com.yukong.panda.common.constants.CommonConstants;
 import com.yukong.panda.common.constants.RedisKey;
+import com.yukong.panda.common.service.IRedisService;
 import com.yukong.panda.common.service.RedisService;
 import com.yukong.panda.common.util.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.integration.support.json.JacksonJsonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,48 +41,39 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Autowired
     private CategoryMapper categoryMapper;
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private IRedisService redisService;
+    @Autowired
+    private RedisSerializer redisSerializer;
 
     //todo 待优化
 
     /**
      * 数据库 18058 ms
      * 缓存 259 ms
+     *
      * @return
      */
     @Override
     public List<CategoryTree> getAllCategory() {
-        ObjectMapper mapper = new ObjectMapper();
         List<Category> categories = new ArrayList<>();
         //field:商品id;value:json
         //设置过期时间
-        redisTemplate.expire(RedisKey.CATEGORY_ID_MAP, 24, TimeUnit.HOURS);
-        BoundHashOperations<String, Object, Object> hashOps = redisTemplate.boundHashOps(RedisKey.CATEGORY_ID_MAP);
-        Map<Object, Object> categoryMap = hashOps.entries();
+        redisService.expire(RedisKey.CATEGORY_ID_MAP, 1,TimeUnit.DAYS);
+        Map<Object, Object> categoryMap = redisService.hGetAll(RedisKey.CATEGORY_ID_MAP);
 
         assert categoryMap != null;
         if (!categoryMap.isEmpty()) {
             Set<Map.Entry<Object, Object>> entries = categoryMap.entrySet();
             for (Map.Entry<Object, Object> entry : entries) {
-
-                Category category = null;
-                try {
-                    category = mapper.readValue((String) entry.getValue(), Category.class);
-                } catch (IOException e) {
-                    log.error("", e);
-                }
+                Category category = (Category) redisSerializer.deserialize(entry.getValue().toString().getBytes());
                 categories.add(category);
             }
         } else {
             QueryWrapper<Category> query = new QueryWrapper<>();
             categories = categoryMapper.queryAll();
             categories.forEach((category -> {
-                try {
-                    String categoryJson = mapper.writeValueAsString(category);
-                    hashOps.put(String.valueOf(category.getId()), categoryJson);
-                } catch (JsonProcessingException e) {
-                    log.error("", e);
-                }
+                byte[] bytes = redisSerializer.serialize(category);
+                redisService.hSet(RedisKey.CATEGORY_ID_MAP, String.valueOf(category.getId()), bytes);
             }));
         }
         List<CategoryTree> categoryTrees = TreeUtil.list2Tree(categories, CommonConstants.CATEGORY_TREE_ROOT);
