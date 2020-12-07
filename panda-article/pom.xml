@@ -9,12 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>panda-item</artifactId>
+    <artifactId>panda-article</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.8.0</version>
+            <groupId>com.wondertek.voice</groupId>
+            <artifactId>Msc</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -68,9 +80,13 @@
             <artifactId>commons-net</artifactId>
             <version>3.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.8.0</version>
+        </dependency>
 
 
     </dependencies>
-
 
 </project>
