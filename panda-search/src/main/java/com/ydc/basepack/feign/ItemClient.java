@@ -2,10 +2,7 @@ package com.ydc.basepack.feign;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ydc.basepack.feign.model.SkuDTO;
-import com.ydc.basepack.feign.model.SpuDTO;
-import com.ydc.basepack.feign.model.SpuDetailDTO;
-import com.ydc.basepack.feign.model.SpuQuery;
+import com.ydc.basepack.feign.model.*;
 import com.yukong.panda.common.util.ApiResult;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -37,13 +34,20 @@ public interface ItemClient {
     @GetMapping("/spu/detail/{spuId}")
     ApiResult<SpuDetailDTO> querySpuDetailById(@PathVariable("spuId") Long id) ;
 
-
     @ApiOperation(value = "商品sku查询", notes = "根据spuId查询商品sku", httpMethod = "GET")
     @ApiImplicitParam(name = "skuQuery", value = "商品详情查询", required = false, dataType = "skuQuery")
     @GetMapping("sku/of/spu")
      ApiResult<List<SkuDTO>> querySkuBySpuId(@RequestParam("id") Long id) ;
 
 
+    @ApiOperation(value = "根据spuId查询分类", notes = "添加根据spuId查询分类分类", httpMethod = "GET")
+    @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "categoryAdd")
+    @GetMapping("/category/of/spuIds")
+    ApiResult<List<Category>> queryCategoryBySpuId(List<Long> ids);
 
 
+    @ApiOperation(value = "根据id查询品牌", notes = "根据id查询品牌", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "Long")
+    @GetMapping("id/{id}")
+    public ApiResult<Brand> queryBrandById(@PathVariable("id") Long id);
 }

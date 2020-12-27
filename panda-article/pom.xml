@@ -12,11 +12,11 @@
     <artifactId>panda-article</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.wondertek.voice</groupId>
-            <artifactId>Msc</artifactId>
-            <version>1.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.wondertek.voice</groupId>-->
+<!--            <artifactId>Msc</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>

@@ -118,4 +118,15 @@ public class BrandController {
         return new ApiResult<>(brandService.deleteById(id));
     }
 
+    @ApiOperation(value = "根据id查询品牌", notes = "根据id查询品牌", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "品牌id", required = true, dataType = "Integer")
+    @GetMapping("id/{id}")
+    public ApiResult<Brand> queryBrandById(@PathVariable("id") Integer id) {
+        return new ApiResult<Brand>(brandService.queryBrandById(id));
+    }
+
+
+
+
+
 }

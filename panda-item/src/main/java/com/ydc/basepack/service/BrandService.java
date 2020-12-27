@@ -6,7 +6,9 @@ import com.ydc.basepack.model.query.BrandQuery;
 
 public interface BrandService extends IService<Brand> {
 
-  BrandQuery pageBrandByQuery(BrandQuery brandVoQuery);
+    BrandQuery pageBrandByQuery(BrandQuery brandVoQuery);
 
     Boolean deleteById(Integer id);
+
+    Brand queryBrandById(Long id);
 }

@@ -1,0 +1,33 @@
+PUT /goods
+{
+  "settings": {
+    "number_of_replicas": 1
+    , "number_of_shards": 1
+  }
+}
+
+GET goods
+
+
+PUT /goods/_mapping/
+{
+  "properties":{
+        "id":{
+          "type": "keyword"
+        },
+        "subTitle":{
+          "type": "keyword",
+          "index": false
+        },
+        "skus":{
+          "type": "keyword",
+          "index": false
+        },
+        "all":{
+          "type": "text",
+          "analyzer": "ik_max_word"
+        }
+  }
+}
+
+GET /goods/_mapping

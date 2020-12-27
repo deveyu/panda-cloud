@@ -37,4 +37,9 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         super.updateById(brand);
         return Boolean.TRUE;
     }
+
+    @Override
+    public Brand queryBrandById(Long id) {
+        return brandMapper.selectById(id);
+    }
 }

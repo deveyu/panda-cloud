@@ -1,7 +1,6 @@
 package com.ydc.basepack.feign.model;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ydc.basepack.model.entity.SpuDetail;
 import lombok.Data;
 
 import java.util.Date;

@@ -48,4 +48,12 @@ public class CategoryController {
     }
 
 
+    @ApiOperation(value = "根据spuId查询分类", notes = "添加根据spuId查询分类分类", httpMethod = "GET")
+    @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "categoryAdd")
+    @GetMapping("/category/of/spuIds")
+    public ApiResult<List<Category>> queryCategoryBySpuId(List<Long> ids){
+        return new ApiResult<>(categoryService.queryCategoryBySpuId(ids));
+    }
+
+
 }
