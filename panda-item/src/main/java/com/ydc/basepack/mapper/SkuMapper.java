@@ -12,5 +12,5 @@ import java.util.List;
 public interface SkuMapper extends BaseMapper<Sku> {
 
 
-    List<SkuDTO> querySkuBySpuId(Long id);
+    List<Sku> querySkuBySpuId(Long id);
 }

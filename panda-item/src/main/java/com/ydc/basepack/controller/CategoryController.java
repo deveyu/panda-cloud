@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -44,14 +45,30 @@ public class CategoryController {
     @ApiImplicitParam(name = "categoryAdd", value = "添加分类", required = false, dataType = "categoryAdd")
     @PostMapping
     public ApiResult<Boolean> addCategory(@RequestBody Category category){
+        category.setCreateTime(new Date());
         return new ApiResult<Boolean>(categoryService.save(category));
+    }
+
+    @ApiOperation(value = "修改分类", notes = "修改分类", httpMethod = "PUT")
+    @ApiImplicitParam(name = "categoryUpdate", value = "修改分类", required = false, dataType = "categoryUpdate")
+    @PutMapping
+    public ApiResult<Boolean> updateCategory(@RequestBody Category category){
+        category.setUpdateTime(new Date());
+        return new ApiResult<Boolean>(categoryService.updateById(category));
+    }
+
+    @ApiOperation(value = "删除分类", notes = "删除分类", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "categoryDelete", value = "删除分类", required = false, dataType = "categoryDelete")
+    @DeleteMapping("id/{id}")
+    public ApiResult<Boolean> removeCategory(@PathVariable("id")Long id){
+        return new ApiResult<Boolean>(categoryService.removeById(id));
     }
 
 
     @ApiOperation(value = "根据spuId查询分类", notes = "添加根据spuId查询分类分类", httpMethod = "GET")
     @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "categoryAdd")
-    @GetMapping("/category/of/spuIds")
-    public ApiResult<List<Category>> queryCategoryBySpuId(List<Long> ids){
+    @GetMapping("/category/of/spuIds/{spuIds}")
+    public ApiResult<List<Category>> queryCategoryBySpuId(@PathVariable("spuIds")List<Long> ids){
         return new ApiResult<>(categoryService.queryCategoryBySpuId(ids));
     }
 

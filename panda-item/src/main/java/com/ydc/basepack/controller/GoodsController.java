@@ -1,11 +1,13 @@
 package com.ydc.basepack.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ydc.basepack.model.dto.CategoryTree;
 import com.ydc.basepack.model.dto.SkuDTO;
 import com.ydc.basepack.model.dto.SpuDTO;
 import com.ydc.basepack.model.dto.SpuDetailDTO;
+import com.ydc.basepack.model.entity.Spu;
 import com.ydc.basepack.model.query.SpuQuery;
 import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.service.GoodsService;
@@ -44,6 +46,14 @@ public class GoodsController {
     public ApiResult<SpuDetailDTO> querySpuDetailById(@PathVariable("spuId") Long id) {
         return new ApiResult<>(goodsService.querySpuDetailById(id));
     }
+
+    @ApiOperation(value = "商品详情查询", notes = "根据spuId查询商品详情", httpMethod = "GET")
+    @ApiImplicitParam(name = "spuDetailQuery", value = "商品详情查询", required = false, dataType = "spuDetailQuery")
+    @PutMapping("/seal")
+    public ApiResult<Boolean> upAndDownSpu(@RequestBody Spu spu) {
+        return new ApiResult<Boolean>(goodsService.upAndDownSpu(spu));
+    }
+
 
 
     @ApiOperation(value = "商品sku查询", notes = "根据spuId查询商品sku", httpMethod = "GET")

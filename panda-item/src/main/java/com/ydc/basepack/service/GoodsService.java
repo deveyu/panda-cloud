@@ -20,4 +20,6 @@ public interface GoodsService extends IService<Spu> {
   SpuDetailDTO querySpuDetailById(@PathVariable("spuId") Long id);
 
   List<SkuDTO> querySkuBySpuId(Long id);
+
+    Boolean upAndDownSpu(Spu spu);
 }

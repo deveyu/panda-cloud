@@ -2,6 +2,7 @@ package com.ydc.basepack.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.netflix.discovery.converters.Auto;
 import com.ydc.basepack.mapper.CategoryMapper;
 import com.ydc.basepack.model.dto.CategoryTree;
 import com.ydc.basepack.model.entity.Category;
@@ -10,6 +11,7 @@ import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.util.TreeUtil;
 import com.yukong.panda.common.constants.CommonConstants;
 import com.yukong.panda.common.constants.RedisKey;
+import com.yukong.panda.common.util.RedisUtil;
 import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -19,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.hash.HashMapper;
 import org.springframework.data.redis.hash.Jackson2HashMapper;
 import org.springframework.data.redis.hash.ObjectHashMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +38,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Resource(name = "redisTemplate")
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     //todo 待优化
 

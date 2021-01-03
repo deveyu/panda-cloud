@@ -3,7 +3,9 @@ package com.ydc.basepack.model.dto;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ydc.basepack.model.entity.Sku;
 import com.ydc.basepack.model.entity.Spu;
+import com.ydc.basepack.model.entity.SpuDetail;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -23,6 +25,8 @@ public class SpuDTO {
     private Date createTime;// 创建时间
     private String categoryName; // 商品分类名称拼接
     private String brandName;// 品牌名称
+    private SpuDetail spuDetail;
+    private List<Sku> skus;
 
     /**
      * 方便同时获取3级分类
