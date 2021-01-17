@@ -10,9 +10,11 @@ import com.ydc.basepack.model.query.CategoryQuery;
 import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.util.TreeUtil;
 import com.yukong.panda.common.constants.CommonConstants;
+import com.yukong.panda.common.constants.MqQueueNameConstant;
 import com.yukong.panda.common.constants.RedisKey;
 import com.yukong.panda.common.util.RedisUtil;
 import jdk.nashorn.internal.ir.CallNode;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.BoundValueOperations;
@@ -35,35 +37,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Autowired
     private CategoryMapper categoryMapper;
 
-    @Resource(name = "redisTemplate")
-    private RedisTemplate redisTemplate;
-
     @Autowired
     private RedisUtil redisUtil;
 
-    //todo 待优化
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
-    /**
-     * 数据库 18058 ms
-     * 缓存 259 ms
-     *
+
+    /**todo 带优化该查询时间接近2s
      * @return
      */
     @Override
-    public List<CategoryTree> getAllCategory() {
-        List<Category> categories = new ArrayList<>();
-        //field:商品id;value:json
-        //todo 操作redis时 K和HK都要是String
-        BoundHashOperations<String,String,Category> boundHashOperations = redisTemplate.boundHashOps(RedisKey.CATEGORY_ID_MAP);
-        boundHashOperations.expire(1, TimeUnit.DAYS);
-        categories = boundHashOperations.values();
-        assert categories != null;
-        if (categories.isEmpty()) {
-            categories = categoryMapper.queryAll();
-            Map<String, Category> collect = categories.stream().collect(Collectors.toMap(category -> String.valueOf(category.getId()), category -> category, (key1, key2) -> key2));
-            boundHashOperations.putAll(collect);
-        }
-        List<CategoryTree> categoryTrees = TreeUtil.list2Tree(categories, CommonConstants.CATEGORY_TREE_ROOT);
+    public List<CategoryTree> getCategoryByTree() {
+
+        //todo
+        List<CategoryTree> categoryTrees = (List<CategoryTree>) redisUtil.get(RedisKey.CATEGORY);
         return categoryTrees;
     }
 
@@ -77,5 +65,58 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public List<Category> queryCategoryBySpuId(List<Long> ids) {
         return categoryMapper.selectBatchIds(ids);
+    }
+
+
+    @Override
+    public Boolean addCategory(Category category) {
+        category.setCreateTime(new Date());
+        if (categoryMapper.insert(category) != 1) {
+            return Boolean.FALSE;
+        }
+        syncCategory();
+
+        return Boolean.TRUE;
+    }
+
+
+    @Override
+    public Boolean updateCategory(Category category) {
+        category.setUpdateTime(new Date());
+        if (categoryMapper.updateById(category) != 1) {
+            return Boolean.FALSE;
+        }
+        syncCategory();
+        return Boolean.TRUE;
+    }
+
+
+    @Override
+    public Boolean removeCategory(Long id) {
+
+        if (categoryMapper.deleteById(id) != 1) {
+            return Boolean.FALSE;
+        }
+        syncCategory();
+        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 通知
+     */
+    private void sendMessage() {
+        //todo 发送消息，使用feign调用rabbit-producer的接口？
+        rabbitTemplate.convertAndSend(MqQueueNameConstant.ITEM_CATEGORY_QUEUE, "");
+    }
+
+    /**
+     * 全量同步分类到redis
+     */
+    private void syncCategory() {
+        //直接从缓存获取
+        List<Category> categories = categoryMapper.queryAll();
+        List<CategoryTree> categoryTrees = TreeUtil.list2Tree(categories, CommonConstants.CATEGORY_TREE_ROOT);
+        redisUtil.set(RedisKey.CATEGORY, categoryTrees);
     }
 }

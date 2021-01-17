@@ -6,6 +6,5 @@ package com.yukong.panda.common.constants;
  */
 public interface RedisKey {
 
-    String CATEGORY_ID_LIST = "PANDA::ITEM::CATEGORY:LIST";
-    String CATEGORY_ID_MAP = "PANDA::ITEM::CATEGORY::MAP";
+    String CATEGORY = "PANDA::ITEM::CATEGORY:STR";
 }

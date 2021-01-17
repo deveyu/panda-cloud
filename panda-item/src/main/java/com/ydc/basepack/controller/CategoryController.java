@@ -27,11 +27,16 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
+    /**
+     * 该接口portal和admin都需要显示树形结构的分类，怎么存？这一块要动态获取最新数据吗？现在按照最新显示
+     * 方案：按树结构存redis，数据结构string
+     * @return
+     */
     @ApiOperation(value = "分类信息树结构查询", notes = "分类信息树结构查询所有", httpMethod = "GET")
     @ApiImplicitParam(name = "categoryTreeQuery", value = "分类信息查询类", required = false, dataType = "categoryQuery")
     @GetMapping("tree")
-    public ApiResult<List<CategoryTree>> getAllCategory(){
-        return new ApiResult<>(categoryService.getAllCategory());
+    public ApiResult<List<CategoryTree>> getCategoryByTree(){
+        return new ApiResult<>(categoryService.getCategoryByTree());
     }
 
     @ApiOperation(value = "分类信息分页查询", notes = "分类信息分页查询", httpMethod = "GET")
@@ -41,12 +46,19 @@ public class CategoryController {
         return new ApiResult<>(categoryService.getCategoryByPage(query));
     }
 
+    /**
+     * 先更新db
+     * mq消费者异步更新redis
+     *
+     * @param category
+     * @return
+     */
     @ApiOperation(value = "添加分类", notes = "添加分类", httpMethod = "POST")
     @ApiImplicitParam(name = "categoryAdd", value = "添加分类", required = false, dataType = "categoryAdd")
     @PostMapping
     public ApiResult<Boolean> addCategory(@RequestBody Category category){
-        category.setCreateTime(new Date());
-        return new ApiResult<Boolean>(categoryService.save(category));
+
+        return new ApiResult<>(categoryService.addCategory(category));
     }
 
     @ApiOperation(value = "修改分类", notes = "修改分类", httpMethod = "PUT")
@@ -54,17 +66,21 @@ public class CategoryController {
     @PutMapping
     public ApiResult<Boolean> updateCategory(@RequestBody Category category){
         category.setUpdateTime(new Date());
-        return new ApiResult<Boolean>(categoryService.updateById(category));
+        return new ApiResult<Boolean>(categoryService.updateCategory(category));
     }
 
     @ApiOperation(value = "删除分类", notes = "删除分类", httpMethod = "DELETE")
     @ApiImplicitParam(name = "categoryDelete", value = "删除分类", required = false, dataType = "categoryDelete")
     @DeleteMapping("id/{id}")
     public ApiResult<Boolean> removeCategory(@PathVariable("id")Long id){
-        return new ApiResult<Boolean>(categoryService.removeById(id));
+        return new ApiResult<Boolean>(categoryService.removeCategory(id));
     }
 
-
+    /**
+     * 该接口是
+     * @param ids
+     * @return
+     */
     @ApiOperation(value = "根据spuId查询分类", notes = "添加根据spuId查询分类分类", httpMethod = "GET")
     @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "categoryAdd")
     @GetMapping("/category/of/spuIds/{spuIds}")

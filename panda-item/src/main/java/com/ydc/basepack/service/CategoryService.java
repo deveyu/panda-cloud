@@ -9,9 +9,15 @@ import java.util.List;
 
 public interface CategoryService extends IService<Category> {
 
-  List<CategoryTree> getAllCategory();
+    List<CategoryTree> getCategoryByTree();
 
     CategoryQuery getCategoryByPage(CategoryQuery query);
 
     List<Category> queryCategoryBySpuId(List<Long> ids);
+
+    Boolean addCategory(Category category);
+
+    Boolean updateCategory(Category category);
+
+    Boolean removeCategory(Long id);
 }

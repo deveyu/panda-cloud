@@ -1,9 +1,4 @@
 package com.ydc.basepack.controller;
-
-
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ydc.basepack.model.dto.CategoryTree;
 import com.ydc.basepack.model.dto.SkuDTO;
 import com.ydc.basepack.model.dto.SpuDTO;
 import com.ydc.basepack.model.dto.SpuDetailDTO;

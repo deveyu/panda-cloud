@@ -18,4 +18,9 @@ public interface MqQueueNameConstant {
      * 邮件队列
      */
     String MAIL_CODE_QUEUE= "mail_code_queue";
+
+    /**
+     * 分类
+     */
+    String ITEM_CATEGORY_QUEUE= "item_category_queue";
 }
