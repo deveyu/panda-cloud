@@ -11,4 +11,5 @@ import java.util.List;
 public interface ArticleService {
     void convert2Voice(String htmlText);
     List<ModifyVO> modifyArticle(String htmlText, Boolean async);
+    String getWriteUrl(String userId, String nickname);
 }

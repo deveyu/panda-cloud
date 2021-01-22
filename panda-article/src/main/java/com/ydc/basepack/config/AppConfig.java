@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @description
  */
 @Configuration
-@EnableConfigurationProperties({VoiceConfig.class,ModifyConfig.class})
+@EnableConfigurationProperties({VoiceConfig.class,ModifyConfig.class,WriterConfig.class})
 public class AppConfig {
 }

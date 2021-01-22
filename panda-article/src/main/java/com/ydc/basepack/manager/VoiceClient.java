@@ -30,7 +30,6 @@ public class VoiceClient {
     @Autowired
     private VoiceConfig voiceConfig;
 
-    private  VoiceClient voiceClient;
 
     private Thread acceptThread;
     /**

@@ -4,6 +4,7 @@ import cn.hutool.http.HtmlUtil;
 import com.esotericsoftware.minlog.Log;
 import com.ydc.basepack.manager.ModifyClient;
 import com.ydc.basepack.manager.VoiceClient;
+import com.ydc.basepack.manager.WriteClient;
 import com.ydc.basepack.service.ArticleService;
 import com.ydc.basepack.voice.VoiceTask;
 import com.ydc.basepack.vo.ModifyVO;
@@ -32,9 +33,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource(name = "modifyClient")
     private ModifyClient modifyClient;
 
+    @Resource(name = "writeClient")
+    private WriteClient writeClient;
 
     @Override
     public void convert2Voice(String htmlText) {
+
         VoiceClient voiceClient = (VoiceClient) ctx.getBean("voiceClient");
         String fileName = String.valueOf(System.currentTimeMillis());
         VoiceTask task = new VoiceTask("10800211232", fileName, htmlText);
@@ -52,6 +56,13 @@ public class ArticleServiceImpl implements ArticleService {
             throw new ServiceException(ResponseCodeEnum.FAILURE, e);
         }
         return modify;
+    }
+
+    @Override
+    public String getWriteUrl(String userId, String nickname) {
+      // return writeClient.getWriteUrl(userId, nickname);
+        writeClient.write();
+        return "";
     }
 
 }

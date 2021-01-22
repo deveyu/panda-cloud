@@ -32,4 +32,9 @@ public class ArticleController {
         List<ModifyVO> modifyVOS = articleService.modifyArticle(htmlText, async);
         return modifyVOS;
     }
+
+    @PostMapping("/write")
+    public String write(@RequestParam("userId") String userId,@RequestParam("nickname")String  nickname) {
+       return articleService.getWriteUrl(userId, nickname);
+    }
 }
