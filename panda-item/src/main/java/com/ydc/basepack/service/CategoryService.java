@@ -13,7 +13,7 @@ public interface CategoryService extends IService<Category> {
 
     CategoryQuery getCategoryByPage(CategoryQuery query);
 
-    List<Category> queryCategoryBySpuId(List<Long> ids);
+    List<Category> queryCategoryByIds(List<Long> ids);
 
     Boolean addCategory(Category category);
 

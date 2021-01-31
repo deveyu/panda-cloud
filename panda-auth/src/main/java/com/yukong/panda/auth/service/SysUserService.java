@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2018-10-08
  */
 @FeignClient(name = "panda-user-service", fallback = SysUserServiceFallback.class)
-//@FeignClient(name = "${USER_SERVICE_HOSTNAME}", fallback = SysUserServiceFallback.class)
 public interface SysUserService {
 
     /**

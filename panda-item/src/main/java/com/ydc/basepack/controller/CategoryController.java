@@ -77,15 +77,14 @@ public class CategoryController {
     }
 
     /**
-     * 该接口是
      * @param ids
      * @return
      */
-    @ApiOperation(value = "根据spuId查询分类", notes = "添加根据spuId查询分类分类", httpMethod = "GET")
-    @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "categoryAdd")
-    @GetMapping("/category/of/spuIds/{spuIds}")
-    public ApiResult<List<Category>> queryCategoryBySpuId(@PathVariable("spuIds")List<Long> ids){
-        return new ApiResult<>(categoryService.queryCategoryBySpuId(ids));
+    @ApiOperation(value = "根据Id查询分类", notes = "添加根据Id查询分类分类", httpMethod = "GET")
+    @ApiImplicitParam(name = "categoryQuery", value = "查询分类", required = false, dataType = "")
+    @GetMapping("list")
+    public ApiResult<List<Category>> queryCategoryByIds(@RequestParam("ids")List<Long> ids){
+        return new ApiResult<>(categoryService.queryCategoryByIds(ids));
     }
 
 

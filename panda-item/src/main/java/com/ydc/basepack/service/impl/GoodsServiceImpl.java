@@ -84,8 +84,8 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
     @Override
     public List<SkuDTO> querySkuBySpuId(Long id) {
 
-        List<SkuDTO> skuDTOS = new ArrayList<>();
         List<Sku> skus = skuService.getSkuBySpuId(id);
+        List<SkuDTO> skuDTOS = new ArrayList<>(skus.size());
         for (Sku sku : skus) {
             SkuDTO skuDTO = BeanHelper.copyProperties(sku, SkuDTO.class);
             skuDTOS.add(skuDTO);

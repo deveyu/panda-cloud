@@ -63,7 +63,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public List<Category> queryCategoryBySpuId(List<Long> ids) {
+    public List<Category> queryCategoryByIds(List<Long> ids) {
         return categoryMapper.selectBatchIds(ids);
     }
 
