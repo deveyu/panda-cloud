@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * @author: yukong
  * @date: 2018/10/12 10:31
- * @description: 自定义AuthExceptionEntryPoint用于tokan校验失败返回信息
+ * @description: 自定义AuthExceptionEntryPoint用于token校验失败返回信息
  */
 public class AuthExceptionEntryPoint implements AuthenticationEntryPoint {
 

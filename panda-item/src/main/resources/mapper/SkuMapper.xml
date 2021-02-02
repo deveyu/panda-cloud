@@ -3,7 +3,7 @@
 <mapper namespace="com.ydc.basepack.mapper.SkuMapper">
 
 
-    <select id="querySkuBySpuId" resultType="com.ydc.basepack.model.dto.SkuDTO">
+    <select id="querySkuBySpuId" resultType="com.ydc.basepack.model.entity.Sku">
         select
         *
         from

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ *      同步数据  localhost:9092/sync
+ */
 @Service
 public class SearchService {
 
@@ -47,7 +50,7 @@ public class SearchService {
             map.put("price", skuDTO.getPrice());
             map.put("title", skuDTO.getCreateTime());
             String images = skuDTO.getImages();
-            map.put("image", images.substring(0, images.indexOf(",")));
+            map.put("image", images);
             skuList.add(map);
         }
 

@@ -15,11 +15,9 @@ import java.util.List;
 
 public interface GoodsService extends IService<Spu> {
 
-  SpuQuery queryByPage(SpuQuery spuQuery);
+    SpuQuery queryByPage(SpuQuery spuQuery);
 
-  SpuDetailDTO querySpuDetailById(@PathVariable("spuId") Long id);
-
-  List<SkuDTO> querySkuBySpuId(Long id);
+    SpuDetailDTO querySpuDetailById(@PathVariable("spuId") Long id);
 
     Boolean upAndDownSpu(Spu spu);
 }

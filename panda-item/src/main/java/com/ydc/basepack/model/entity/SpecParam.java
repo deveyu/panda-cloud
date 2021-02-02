@@ -1,6 +1,7 @@
 package com.ydc.basepack.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -20,7 +21,10 @@ public class SpecParam {
     private Long cid;
     private Long groupId;
     private String name;
-    // @Column(name = "`numeric`")
+    /**
+     * mybatis plus解决字段名为数据库关键字
+     */
+    @TableField("`numeric`")
     private Boolean numeric;
     private String unit;
     private Boolean generic;

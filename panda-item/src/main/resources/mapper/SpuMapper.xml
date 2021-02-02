@@ -18,7 +18,7 @@
         </where>
     </select>
 
-    <select id="querySpuDetailById" resultType="com.ydc.basepack.model.dto.SpuDetailDTO">
+    <select id="querySpuDetailById" resultType="com.ydc.basepack.model.entity.SpuDetail">
         select
         *
         from

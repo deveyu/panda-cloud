@@ -18,8 +18,8 @@ import java.util.List;
  * 有了feignClient,可以说三层才完整，controller层终于有接口了！
  */
 @FeignClient(value = "panda-item-service",fallback =ItemFallback.class )
+//@FeignClient(fallback =ItemFallback.class ,url = "http:localhost:9091/item/")
 public interface ItemClient {
-
 
     @ApiOperation(value = "商品sku查询", notes = "根据spuId查询商品sku", httpMethod = "GET")
     @ApiImplicitParam(name = "skuQuery", value = "商品详情查询", required = false, dataType = "skuQuery")

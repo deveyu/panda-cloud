@@ -1,15 +1,12 @@
 package com.ydc.basepack.service.impl;
 
-import cn.hutool.db.handler.BeanHandler;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
+
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ydc.basepack.mapper.CategoryMapper;
 import com.ydc.basepack.mapper.SkuMapper;
+import com.ydc.basepack.mapper.SpuDetailMapper;
 import com.ydc.basepack.mapper.SpuMapper;
 import com.ydc.basepack.model.dto.CategoryTree;
 import com.ydc.basepack.model.dto.SkuDTO;
@@ -38,7 +35,10 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
     private SpuMapper spuMapper;
 
     @Autowired
-    private SkuService skuService;
+    private SkuMapper skuMapper;
+
+    @Autowired
+    private SpuDetailMapper spuDetailMapper;
 
     @Autowired
     private BrandService brandService;
@@ -46,8 +46,9 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private SpuDetailService spuDetailService;
+
+
+
 
 
     @Override
@@ -67,8 +68,8 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
                 Brand brand = brandService.getById(record.getBrandId());
                 record.setBrandName(brand.getName());
 
-                record.setSpuDetail(spuDetailService.getById(record.getId()));
-                record.setSkus(skuService.getSkuBySpuId(record.getId()));
+                record.setSpuDetail(spuDetailMapper.selectById(record.getId()));
+                record.setSkus(skuMapper.querySkuBySpuId(record.getId()));
             }
         }
         return spuQuery;
@@ -77,20 +78,9 @@ public class GoodsServiceImpl extends ServiceImpl<SpuMapper, Spu> implements Goo
 
     @Override
     public SpuDetailDTO querySpuDetailById(Long id) {
-        return spuMapper.querySpuDetailById(id);
-    }
-
-
-    @Override
-    public List<SkuDTO> querySkuBySpuId(Long id) {
-
-        List<Sku> skus = skuService.getSkuBySpuId(id);
-        List<SkuDTO> skuDTOS = new ArrayList<>(skus.size());
-        for (Sku sku : skus) {
-            SkuDTO skuDTO = BeanHelper.copyProperties(sku, SkuDTO.class);
-            skuDTOS.add(skuDTO);
-        }
-        return skuDTOS;
+        SpuDetailDTO spuDetailDTO = new SpuDetailDTO();
+        BeanUtils.copyProperties(spuDetailMapper.selectById(id),spuDetailDTO);
+        return spuDetailDTO;
     }
 
     /**

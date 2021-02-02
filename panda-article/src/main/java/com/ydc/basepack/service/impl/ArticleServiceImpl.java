@@ -2,7 +2,7 @@ package com.ydc.basepack.service.impl;
 
 import cn.hutool.http.HtmlUtil;
 import com.esotericsoftware.minlog.Log;
-import com.ydc.basepack.manager.ModifyClient;
+import com.ydc.basepack.manager.ModifyClient2;
 import com.ydc.basepack.manager.VoiceClient;
 import com.ydc.basepack.manager.WriteClient;
 import com.ydc.basepack.service.ArticleService;
@@ -30,8 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource(name = "voiceClient")
     private VoiceClient voiceClient;
 
-    @Resource(name = "modifyClient")
-    private ModifyClient modifyClient;
+    @Resource(name = "modifyClient2")
+    private ModifyClient2 modifyClient;
 
     @Resource(name = "writeClient")
     private WriteClient writeClient;

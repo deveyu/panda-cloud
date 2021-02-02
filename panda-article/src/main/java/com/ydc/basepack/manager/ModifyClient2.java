@@ -1,42 +1,50 @@
 package com.ydc.basepack.manager;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ydc.basepack.config.ModifyConfig;
+import com.ydc.basepack.util.ArticleUtil;
+import com.ydc.basepack.vo.ModifyResVO;
 import com.ydc.basepack.vo.ModifyVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author ydc
  * @description 智能校对
  */
-public class ModifyClient {
+@Component
+public class ModifyClient2 {
+    public static Log log = LogFactory.getLog(ModifyClient2.class);
 
+    @Autowired
+    private Executor executor;
 
-    public static Log log = LogFactory.getLog(ModifyClient.class);
+    @Autowired
+    private ModifyConfig modifyConfig;
 
-    /**
-     * 同步接口
-     */
+    @Autowired
+    private RestTemplate restTemplate;
+
+    //todo 增强@value让他支持像@ConfigurationProperties prefix前缀匹配
+    @Value(value = "modify.sync-url")
     private String syncUrl;
-
-    /**
-     * 异步接口
-     */
+    @Value(value = "modify.async-url")
     private String asyncUrl;
-    /**
-     * 获取异步任务进度接口
-     */
+    @Value(value = "modify.progress-url")
     private String progressUrl;
-    /**
-     * 获取异步结果
-     */
+    @Value(value = "modify.res-url")
     private String resUrl;
 
-    private static ModifyClient modifyClient;
+    private ObjectMapper jsonUtil = new ObjectMapper();
 
 
     /**
@@ -54,22 +62,6 @@ public class ModifyClient {
 
     private static final int WORD_LIMIT = 2000;
 
-    public synchronized static ModifyClient getInstance() {
-
-        if (modifyClient == null) {
-//            modifyClient = new ModifyClient(CmsConstants.FANGZHENG_SYCH_URL, CmsConstants.FANGZHENG_ASYCH_URL,
-//                    CmsConstants.FANGZHENG_PROGRESS_URL, CmsConstants.FANGZHENG_RES_URL);
-        }
-        return modifyClient;
-
-    }
-
-    private ModifyClient(String syncUrl, String asyncUrl, String progressUrl, String resUrl) {
-        this.syncUrl = syncUrl;
-        this.asyncUrl = asyncUrl;
-        this.progressUrl = progressUrl;
-        this.resUrl = resUrl;
-    }
 
     /**
      * @param text  文稿内容
@@ -100,7 +92,7 @@ public class ModifyClient {
     public List<ModifyVO> modifySync(String contId, String text) throws InterruptedException {
 
         //分割文稿，每次2048个字符
-        List<String> textList = StringUtil.getStrList(text, WORD_LIMIT);
+        List<String> textList = ArticleUtil.getStrList(text, WORD_LIMIT);
         List<ModifyVO> modifyList = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(textList.size());
         //这里的map要保证不会扩容需要>size*4/3   64>>size
@@ -108,16 +100,13 @@ public class ModifyClient {
 
         for (int i = 0; i < textList.size(); i++) {
             ModifyTask modifyTask = new ModifyTask(i, contId, textList.get(i), latch, resMap);
-            PublishAppSkinThreadPool.executorService.execute(modifyTask);
+            executor.execute(modifyTask);
         }
 
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(20, TimeUnit.SECONDS);
 
         for (int i = 0; i < textList.size(); i++) {
-            List<ModifyVO> modifyVOS = resMap.get(i);
-            if (modifyVOS != null) {
-                modifyList.addAll(modifyVOS);
-            }
+            modifyList.addAll(resMap.get(i));
         }
         return modifyList;
     }
@@ -133,10 +122,14 @@ public class ModifyClient {
 
         Map<String, String> taskReqMap = new HashMap<>(1);
         taskReqMap.put("text", text);
-        String taskResp = HttpClientUtil.HttpPostByJson2(asyncUrl, JsonUtil.map2json(taskReqMap));
 
-        log.info(String.format("智能校对接口响应:%s,文稿id:%s", taskResp, contId));
-        Map<String, Object> taskRespMap = (Map<String, Object>) JsonUtil.fromJson(taskResp, HashMap.class);
+//        ResponseEntity<String> responseEntity = restTemplate.postForEntity(modifyConfig.getAsyncUrl(), taskReqMap, String.class);
+//        String body1 = responseEntity.getBody();
+
+        Map taskRespMap = restTemplate.postForObject(modifyConfig.getAsyncUrl(), taskReqMap, Map.class);
+
+        //log.info(String.format("智能校对接口响应:%s,文稿id:%s", map.get("data"), contId));
+
         String jobId = (String) taskRespMap.get("data");
 
         String pUrl = progressUrl;
@@ -154,10 +147,9 @@ public class ModifyClient {
         String jobState = "";
         while (true) {
 
-            String progressRes = HttpClientUtil.requestGet(pUrl);
+            Map resMap2 = restTemplate.getForObject(pUrl, Map.class);
             //这里的响应保证会有值，不做空指针校验
-            Map<String, Object> resMap2 = (Map<String, Object>) JsonUtil.fromJson(progressRes, HashMap.class);
-            Map<String, Object> data2 = (Map<String, Object>) resMap2.get("data");
+            Map data2 = (Map) resMap2.get("data");
             jobState = (String) data2.get("jobState");
             String pState = STATE_WAIT.equals(jobState) ? "正在处理" : "已完成";
             log.info(String.format("智能审校进度：%s,文稿id:%s", pState, contId));
@@ -175,12 +167,12 @@ public class ModifyClient {
             }
         }
 
-        String result = HttpClientUtil.requestGet(rUrl);
+        String result = restTemplate.getForObject(rUrl, String.class);
         log.info(String.format("获取智能校对任务结果,url:%s,文稿id: %s", rUrl, contId));
         log.info(String.format("获取智能校对任务结果：%s,文稿id: %s", result, contId));
-        Map<String, Object> resMap2 = (Map<String, Object>) JsonUtil.fromJson(result, HashMap.class);
-        Map<String, Object> data = (Map<String, Object>) resMap2.get("data");
-        Map<String, Object> wordCorrect = (Map<String, Object>) data.get("wordcorrect");
+        Map resMap2 = jsonUtil.readValue(result, Map.class);
+        Map data = (Map) resMap2.get("data");
+        Map wordCorrect = (Map) data.get("wordcorrect");
         List<ModifyVO> detail = (List<ModifyVO>) wordCorrect.get("detail");
         return detail;
 
@@ -218,12 +210,9 @@ public class ModifyClient {
             Map<String, String> map = new HashMap<>(1);
             map.put("text", partText);
             try {
-                String jsonBody = JsonUtil.map2json(map);
-
-                String res = HttpClientUtil.HttpPostByJson2(syncUrl, jsonBody);
+                String res = restTemplate.postForObject(syncUrl, map, String.class);
                 log.info(String.format("文稿id:%s,order:%d,智能校对接口响应:%s", contId, order, res));
-                ModifyResVO modifyResVO = JsonUtil.fromJson(res, ModifyResVO.class);
-
+                ModifyResVO modifyResVO = jsonUtil.readValue(res, ModifyResVO.class);
                 String status = modifyResVO.getStatus();
                 if (NORMAL_STATUS.equals(status)) {
                     ModifyResVO.Data data = modifyResVO.getData();

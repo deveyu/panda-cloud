@@ -6,6 +6,7 @@ import com.ydc.basepack.model.entity.Spu;
 import com.ydc.basepack.model.query.SpuQuery;
 import com.ydc.basepack.service.CategoryService;
 import com.ydc.basepack.service.GoodsService;
+import com.ydc.basepack.service.SkuService;
 import com.yukong.panda.common.util.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,6 +27,8 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private SkuService skuService;
 
 
     @ApiOperation(value = "商品信息分页查询", notes = "商品信息分页查询", httpMethod = "GET")
@@ -56,7 +59,7 @@ public class GoodsController {
     @ApiImplicitParam(name = "skuQuery", value = "商品详情查询", required = false, dataType = "skuQuery")
     @GetMapping("sku/of/spu")
     public ApiResult<List<SkuDTO>> querySkuBySpuId(@RequestParam("id") Long id) {
-        return new ApiResult<>(goodsService.querySkuBySpuId(id));
+        return new ApiResult<>(skuService.getSkuBySpuId(id));
     }
 
 

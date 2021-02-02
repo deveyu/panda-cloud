@@ -14,7 +14,6 @@ public class OAuth2AccessTokenQuery {
 
     private Integer size = 10;
 
-
     private Integer current = 1;
 
     private Integer pages = 1;
