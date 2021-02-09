@@ -46,7 +46,6 @@
         <module>panda-article</module>
         <module>panda-producer</module>
         <module>reuse</module>
-        <module>panda-order</module>
     </modules>
 
 

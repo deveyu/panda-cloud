@@ -1,10 +1,14 @@
 package com.yukong.panda.common.util;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -567,5 +571,19 @@ public final class RedisUtil {
         }
 
     }
+
+
+    public boolean zadd(String key, String value, double score) {
+        try {
+            Boolean add = redisTemplate.opsForZSet().add(key, value, score);
+            return add;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 
 }
